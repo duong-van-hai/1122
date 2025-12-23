@@ -4,10 +4,7 @@
   <meta charset="utf-8">
   <title>AR Động cơ đốt trong</title>
 
-  <!-- A-Frame -->
   <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
-
-  <!-- AR.js -->
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 </head>
 
@@ -18,12 +15,17 @@
   arjs="sourceType: webcam; debugUIEnabled: false;"
 >
 
-  <!-- Marker HIRO -->
+  <!-- LOAD MODEL -->
+  <a-assets>
+    <a-asset-item id="engineModel" src="./engine.glb"></a-asset-item>
+  </a-assets>
+
+  <!-- MARKER HIRO -->
   <a-marker preset="hiro">
 
-    <!-- MÔ HÌNH ĐỘNG CƠ -->
+    <!-- ĐỘNG CƠ 3D -->
     <a-entity
-      gltf-model="engine.glb"
+      gltf-model="#engineModel"
       scale="0.02 0.02 0.02"
       position="0 0 0"
       rotation="0 180 0">
