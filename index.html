@@ -1,29 +1,33 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>AR Hiro Demo</title>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8">
+    <title>AR Hiro Test</title>
 
-  <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
-  <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.2.1/aframe/build/aframe-ar.js"></script>
-</head>
+    <!-- A-Frame -->
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
 
-<body>
-  <a-scene embedded arjs="sourceType: webcam;">
+    <!-- AR.js -->
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+  </head>
 
-    <!-- GẮN HIRO -->
-    <a-marker preset="hiro">
-  <a-box
-    position="0 0.5 0"
-    rotation="0 45 0"
-    scale="1 1 1"
-    color="red">
-  </a-box>
-</a-marker>
+  <body style="margin: 0; overflow: hidden;">
+    <a-scene
+      embedded
+      arjs="sourceType: webcam; debugUIEnabled: false;"
+    >
+      <!-- Marker Hiro -->
+      <a-marker preset="hiro">
+        <a-box
+          position="0 0.5 0"
+          scale="1 1 1"
+          rotation="0 45 0"
+          color="red">
+        </a-box>
+      </a-marker>
 
-
-    <a-entity camera></a-entity>
-  </a-scene>
-</body>
+      <!-- Camera -->
+      <a-entity camera></a-entity>
+    </a-scene>
+  </body>
 </html>
-
