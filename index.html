@@ -2,45 +2,38 @@
 <html lang="vi">
 <head>
   <meta charset="utf-8">
-  <title>AR Động cơ đốt trong (Không marker)</title>
+  <title>AR Động cơ đốt trong</title>
 
   <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 </head>
 
-<body style="margin:0; overflow:hidden;">
+<body style="margin: 0; overflow: hidden;">
 <a-scene
-  webxr="requiredFeatures: hit-test;"
-  renderer="colorManagement: true;"
-  vr-mode-ui="enabled: false">
+  embedded
+  vr-mode-ui="enabled: false"
+  arjs="sourceType: webcam; debugUIEnabled: false;"
+>
 
   <!-- LOAD MODEL -->
   <a-assets>
     <a-asset-item id="engineModel" src="./engine.glb"></a-asset-item>
   </a-assets>
 
-  <!-- CAMERA -->
+  <!-- MARKER HIRO -->
+  <a-marker preset="hiro">
+
+    <!-- ĐỘNG CƠ 3D -->
+    <a-entity
+      gltf-model="#engineModel"
+      scale="0.02 0.02 0.02"
+      position="0 0 0"
+      rotation="0 180 0">
+    </a-entity>
+
+  </a-marker>
+
   <a-entity camera></a-entity>
-
-  <!-- MÔ HÌNH (ẨN BAN ĐẦU) -->
-  <a-entity
-    id="engine"
-    gltf-model="#engineModel"
-    scale="0.02 0.02 0.02"
-    visible="false">
-  </a-entity>
-
 </a-scene>
-
-<script>
-const scene = document.querySelector('a-scene');
-const engine = document.querySelector('#engine');
-
-scene.addEventListener('click', () => {
-  if (!engine.getAttribute('visible')) {
-    engine.setAttribute('visible', true);
-    engine.setAttribute('position', '0 0 -1');
-  }
-});
-</script>
 </body>
 </html>
