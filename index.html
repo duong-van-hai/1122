@@ -1,28 +1,112 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>AR Hiro Marker - Multi-color Box</title>
-    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-  </head>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Ôn tập Tiếng Anh</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f2f6ff;
+    padding: 20px;
+}
+.container {
+    max-width: 700px;
+    background: white;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+}
+h1 {
+    text-align: center;
+    color: #2c3e50;
+}
+.question {
+    margin-bottom: 15px;
+}
+button {
+    padding: 10px 20px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+.result {
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 18px;
+}
+.correct { color: green; }
+.wrong { color: red; }
+</style>
+</head>
 
-  <body style="margin: 0px; overflow: hidden;">
-    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix;">
-      
-      <a-marker preset="hiro">
-        
-        <a-entity id="movingBox" animation="property: rotation; to: 0 360 360; loop: true; dur: 5000; easing: linear">
-            
-            <a-box position="0 0.5 0" width="0.6" height="0.4" depth="0.3" color="#0000FF"></a-box>
-            
-            <a-plane position="0 0.5 0.151" width="0.6" height="0.4" color="red"></a-plane> <a-plane position="0 0.5 -0.151" width="0.6" height="0.4" color="yellow" rotation="0 180 0"></a-plane> <a-plane position="0.301 0.5 0" width="0.3" height="0.4" color="green" rotation="0 90 0"></a-plane> <a-plane position="-0.301 0.5 0" width="0.3" height="0.4" color="orange" rotation="0 -90 0"></a-plane> <a-plane position="0 0.701 0" width="0.6" height="0.3" color="white" rotation="-90 0 0"></a-plane> <a-plane position="0 0.299 0" width="0.6" height="0.3" color="purple" rotation="90 0 0"></a-plane> </a-entity>
+<body>
+<div class="container">
+<h1>📘 Ôn tập Tiếng Anh</h1>
 
-        <a-text value="VAT THE DA DUOC TAO" position="0 1.2 0" align="center" color="white" width="3"></a-text>
+<form id="quiz">
 
-      </a-marker>
+<div class="question">
+<b>1. My school is ___ the city.</b><br>
+<input type="radio" name="q1" value="a"> on<br>
+<input type="radio" name="q1" value="b"> in<br>
+<input type="radio" name="q1" value="c"> of<br>
+<input type="radio" name="q1" value="d"> at
+</div>
 
-      <a-entity camera></a-entity>
-    </a-scene>
-  </body>
+<div class="question">
+<b>2. There is ___ in my school.</b><br>
+<input type="radio" name="q2" value="a"> ten buildings<br>
+<input type="radio" name="q2" value="b"> three buildings<br>
+<input type="radio" name="q2" value="c"> two buildings<br>
+<input type="radio" name="q2" value="d"> a building
+</div>
+
+<div class="question">
+<b>3. What do you want to drink?</b><br>
+<input type="radio" name="q3" value="a"> fish<br>
+<input type="radio" name="q3" value="b"> grapes<br>
+<input type="radio" name="q3" value="c"> water<br>
+<input type="radio" name="q3" value="d"> bread
+</div>
+
+<div class="question">
+<b>4. My favourite subject is ___.</b><br>
+<input type="radio" name="q4" value="a"> music<br>
+<input type="radio" name="q4" value="b"> Japan<br>
+<input type="radio" name="q4" value="c"> Vietnam<br>
+<input type="radio" name="q4" value="d"> America
+</div>
+
+<button type="button" onclick="submitQuiz()">✅ Nộp bài</button>
+</form>
+
+<div class="result" id="result"></div>
+</div>
+
+<script>
+function submitQuiz() {
+    const answers = {
+        q1: "b",
+        q2: "b",
+        q3: "c",
+        q4: "a"
+    };
+
+    let score = 0;
+    let total = Object.keys(answers).length;
+
+    for (let q in answers) {
+        let selected = document.querySelector(`input[name="${q}"]:checked`);
+        if (selected && selected.value === answers[q]) {
+            score++;
+        }
+    }
+
+    document.getElementById("result").innerHTML =
+        `🎉 Bạn đúng ${score}/${total} câu`;
+}
+</script>
+</body>
 </html>
