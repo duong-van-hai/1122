@@ -7,7 +7,7 @@
     <style>
         :root { --primary: #1a73e8; --success: #28a745; --danger: #dc3545; --bg: #f0f2f5; }
         body { font-family: 'Segoe UI', Arial, sans-serif; background-color: var(--bg); display: flex; justify-content: center; padding: 20px; margin: 0; }
-        .container { max-width: 800px; width: 100%; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .container { max-width: 850px; width: 100%; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         
         h2 { text-align: center; color: var(--primary); border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 30px; }
         h2:first-child { margin-top: 0; }
@@ -19,22 +19,21 @@
         .options label { display: block; padding: 8px; margin: 5px 0; background: #f8f9fa; border-radius: 5px; cursor: pointer; border: 1px solid #eee; }
         .options label:hover { background: #e9ecef; }
 
-        /* Style Phần Nối Câu */
+        /* Style Phần Nối Câu (Đã bỏ a, b, c) */
         .quiz-area { display: flex; gap: 20px; margin-top: 20px; }
         .column { flex: 1; display: flex; flex-direction: column; gap: 10px; }
-        .item { padding: 10px; background: #fff; border: 2px solid #dee2e6; border-radius: 8px; cursor: pointer; font-size: 14px; min-height: 40px; display: flex; align-items: center; }
-        .item.selected { border-color: var(--primary); background: #e8f0fe; font-weight: bold; }
-        .item.matched { background: #d4edda; border-color: var(--success); pointer-events: none; opacity: 0.8; }
+        .item { padding: 12px; background: #fff; border: 2px solid #dee2e6; border-radius: 8px; cursor: pointer; font-size: 15px; min-height: 45px; display: flex; align-items: center; transition: 0.2s; line-height: 1.4; }
+        .item.selected { border-color: var(--primary); background: #e8f0fe; font-weight: bold; transform: scale(1.02); }
+        .item.matched { background: #d4edda; border-color: var(--success); pointer-events: none; opacity: 0.7; border-style: dashed; }
 
         /* Controls */
-        .controls { display: flex; gap: 15px; margin-top: 40px; position: sticky; bottom: 10px; background: white; padding: 10px; border-top: 1px solid #eee; }
-        button { flex: 1; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 18px; transition: 0.3s; }
+        .controls { display: flex; gap: 15px; margin-top: 40px; position: sticky; bottom: 10px; background: white; padding: 15px; border-top: 2px solid #eee; }
+        button { flex: 1; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 18px; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         #submit-btn { background: var(--success); color: white; }
         #reset-btn { background: #6c757d; color: white; }
         button:hover { opacity: 0.9; transform: translateY(-2px); }
 
         #result-final { margin-top: 20px; padding: 20px; border-radius: 10px; text-align: center; font-size: 22px; display: none; background: #fff3cd; border: 2px solid #ffeeba; }
-        .correct-text { color: var(--success); font-weight: bold; }
     </style>
 </head>
 <body>
@@ -46,7 +45,7 @@
     <div id="mcq-container"></div>
 
     <h2>3. Matching Quiz</h2>
-    <p style="text-align: center; font-style: italic;">(Chọn câu hỏi bên trái rồi chọn câu trả lời bên phải để nối)</p>
+    <p style="text-align: center; font-style: italic; color: #666;">(Chọn một câu hỏi bên trái, sau đó chọn câu trả lời tương ứng bên phải)</p>
     <div class="quiz-area">
         <div class="column" id="matching-questions"></div>
         <div class="column" id="matching-answers"></div>
@@ -61,7 +60,7 @@
 </div>
 
 <script>
-    // DỮ LIỆU PHẦN 2
+    // DỮ LIỆU GỐC
     const mcqData = [
         { q: "Happy ____, Mary!", a: ["May", "birthday", "April", "January"], correct: "birthday" },
         { q: "What do you want to ____? (I want some chicken)", a: ["eat", "drink", "party", "jam"], correct: "eat" },
@@ -74,36 +73,39 @@
         { q: "When's your sports day? - It's in ____.", a: ["today", "August", "playground", "teacher"], correct: "August" }
     ];
 
-    // DỮ LIỆU PHẦN 3
     const matchingData = [
-        { q: "1. Where are you from?", a: "h. I am from Japan." },
-        { q: "2. What do you do on Sunday?", a: "g. I do homework." },
-        { q: "3. When’s your birthday?", a: "f. It’s in May." },
-        { q: "4. Can she roller skate?", a: "e. No, she can’t but she can swim." },
-        { q: "5. What’s his favourite subject?", a: "a. His favourite subject is English." },
-        { q: "6. What day is it today?", a: "b. It’s Monday." },
-        { q: "7. What do you want to drink?", a: "c. I want some juice" },
-        { q: "8. Why do you like Art?", a: "d. Because I want to be a painter." }
+        { q: "Where are you from?", a: "I am from Japan." },
+        { q: "What do you do on Sunday?", a: "I do homework." },
+        { q: "When’s your birthday?", a: "It’s in May." },
+        { q: "Can she roller skate?", a: "No, she can’t but she can swim." },
+        { q: "What’s his favourite subject?", a: "His favourite subject is English." },
+        { q: "What day is it today?", a: "It’s Monday." },
+        { q: "What do you want to drink?", a: "I want some juice" },
+        { q: "Why do you like Art?", a: "Because I want to be a painter." }
     ];
 
     let timer;
     let timeLeft = 300;
     let selectedQElement = null;
-    let currentMatches = {}; // { questionIndex: answerText }
+    let currentMatches = {}; 
 
     function shuffle(array) {
         return array.sort(() => Math.random() - 0.5);
     }
 
+    // Hàm xóa tiền tố "1.", "a.", "h."
+    function cleanText(text) {
+        return text.replace(/^[a-z0-9]\.\s+/i, "");
+    }
+
     function initApp() {
-        // Reset biến
         clearInterval(timer);
         timeLeft = 300;
         currentMatches = {};
         selectedQElement = null;
         document.getElementById('result-final').style.display = 'none';
         
-        // 1. Khởi tạo Trắc nghiệm (Phần 2)
+        // 1. Trắc nghiệm
         const mcqContainer = document.getElementById('mcq-container');
         mcqContainer.innerHTML = '';
         const shuffledMCQ = shuffle([...mcqData]);
@@ -119,35 +121,42 @@
             mcqContainer.innerHTML += html;
         });
 
-        // 2. Khởi tạo Nối câu (Phần 3)
+        // 2. Nối câu (Matching)
         const qCol = document.getElementById('matching-questions');
         const aCol = document.getElementById('matching-answers');
         qCol.innerHTML = ''; aCol.innerHTML = '';
         
-        const shuffledMatchQ = [...matchingData]; // Giữ thứ tự câu hỏi để dễ nhìn
-        const shuffledMatchA = shuffle([...matchingData]);
+        const questionsToDisplay = shuffle([...matchingData]);
+        const answersToDisplay = shuffle([...matchingData]);
 
-        shuffledMatchQ.forEach((item, idx) => {
+        questionsToDisplay.forEach((item) => {
             const div = document.createElement('div');
             div.className = 'item';
-            div.innerText = item.q;
+            div.innerText = cleanText(item.q);
             div.onclick = () => {
+                if(div.classList.contains('matched')) return;
                 document.querySelectorAll('#matching-questions .item').forEach(el => el.classList.remove('selected'));
                 div.classList.add('selected');
-                selectedQElement = { el: div, idx: idx };
+                selectedQElement = { el: div, originalQ: item.q, correctA: item.a };
             };
             qCol.appendChild(div);
         });
 
-        shuffledMatchA.forEach((item) => {
+        answersToDisplay.forEach((item) => {
             const div = document.createElement('div');
             div.className = 'item';
-            div.innerText = item.a;
+            div.innerText = cleanText(item.a);
             div.onclick = () => {
-                if(!selectedQElement) return alert("Chọn câu hỏi bên trái trước!");
-                currentMatches[selectedQElement.idx] = item.a;
+                if(!selectedQElement || div.classList.contains('matched')) return;
+                
+                // Lưu cặp đã nối
+                currentMatches[selectedQElement.originalQ] = item.a;
+                
+                // Đánh dấu đã nối thành công trên giao diện
                 selectedQElement.el.classList.add('matched');
                 div.classList.add('matched');
+                
+                selectedQElement.el.classList.remove('selected');
                 selectedQElement = null;
             };
             aCol.appendChild(div);
@@ -171,16 +180,18 @@
         let mcqScore = 0;
         let matchScore = 0;
 
-        // Chấm phần 2
+        // Chấm MCQ
         document.querySelectorAll('.question-block').forEach((block, idx) => {
             const correct = block.getAttribute('data-ans');
             const selected = block.querySelector(`input[name="mcq${idx}"]:checked`);
             if(selected && selected.value === correct) mcqScore++;
         });
 
-        // Chấm phần 3
-        matchingData.forEach((item, idx) => {
-            if(currentMatches[idx] === item.a) matchScore++;
+        // Chấm Matching
+        matchingData.forEach((item) => {
+            if(currentMatches[item.q] === item.a) {
+                matchScore++;
+            }
         });
 
         const total = mcqData.length + matchingData.length;
@@ -189,9 +200,10 @@
         const resDiv = document.getElementById('result-final');
         resDiv.style.display = 'block';
         resDiv.innerHTML = `
-            ${isAuto ? "<h3 style='color:red'>HẾT GIỜ LÀM BÀI!</h3>" : ""}
-            <strong>TỔNG ĐIỂM CỦA BẠN: ${finalScore} / ${total}</strong><br>
-            <small>Phần trắc nghiệm: ${mcqScore}/${mcqData.length} | Phần nối câu: ${matchScore}/${matchingData.length}</small>
+            ${isAuto ? "<h3 style='color:red'>HẾT GIỜ!</h3>" : "<h3>KẾT QUẢ</h3>"}
+            <strong>Tổng điểm: ${finalScore} / ${total}</strong><br>
+            <p>Trắc nghiệm: ${mcqScore}/${mcqData.length} | Nối câu: ${matchScore}/${matchingData.length}</p>
+            <button onclick="location.reload()" style="background:#1a73e8; color:white; font-size:14px; padding:8px 15px; margin-top:10px;">Chơi lại màn mới</button>
         `;
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
