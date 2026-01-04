@@ -1,112 +1,63 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<title>Ôn tập Tiếng Anh</title>
-<style>
-body {
-    font-family: Arial, sans-serif;
-    background: #f2f6ff;
-    padding: 20px;
-}
-.container {
-    max-width: 700px;
-    background: white;
-    margin: auto;
-    padding: 20px;
-    border-radius: 10px;
-}
-h1 {
-    text-align: center;
-    color: #2c3e50;
-}
-.question {
-    margin-bottom: 15px;
-}
-button {
-    padding: 10px 20px;
-    background: #3498db;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-}
-.result {
-    margin-top: 20px;
-    font-weight: bold;
-    font-size: 18px;
-}
-.correct { color: green; }
-.wrong { color: red; }
-</style>
+    <meta charset="UTF-8">
+    <title>Ôn Tập Tiếng Anh</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px; }
+        .container { max-width: 600px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); margin: auto; }
+        .question { font-weight: bold; margin-bottom: 10px; }
+        .options { margin-bottom: 20px; }
+        button { padding: 10px 20px; cursor: pointer; background: #28a745; color: white; border: none; border-radius: 5px; }
+        .result { margin-top: 20px; font-weight: bold; }
+        .correct { color: green; }
+        .incorrect { color: red; }
+    </style>
 </head>
-
 <body>
+
 <div class="container">
-<h1>📘 Ôn tập Tiếng Anh</h1>
-
-<form id="quiz">
-
-<div class="question">
-<b>1. My school is ___ the city.</b><br>
-<input type="radio" name="q1" value="a"> on<br>
-<input type="radio" name="q1" value="b"> in<br>
-<input type="radio" name="q1" value="c"> of<br>
-<input type="radio" name="q1" value="d"> at
-</div>
-
-<div class="question">
-<b>2. There is ___ in my school.</b><br>
-<input type="radio" name="q2" value="a"> ten buildings<br>
-<input type="radio" name="q2" value="b"> three buildings<br>
-<input type="radio" name="q2" value="c"> two buildings<br>
-<input type="radio" name="q2" value="d"> a building
-</div>
-
-<div class="question">
-<b>3. What do you want to drink?</b><br>
-<input type="radio" name="q3" value="a"> fish<br>
-<input type="radio" name="q3" value="b"> grapes<br>
-<input type="radio" name="q3" value="c"> water<br>
-<input type="radio" name="q3" value="d"> bread
-</div>
-
-<div class="question">
-<b>4. My favourite subject is ___.</b><br>
-<input type="radio" name="q4" value="a"> music<br>
-<input type="radio" name="q4" value="b"> Japan<br>
-<input type="radio" name="q4" value="c"> Vietnam<br>
-<input type="radio" name="q4" value="d"> America
-</div>
-
-<button type="button" onclick="submitQuiz()">✅ Nộp bài</button>
-</form>
-
-<div class="result" id="result"></div>
+    <h2>Trắc Nghiệm Ôn Tập</h2>
+    <div id="quiz-container"></div>
+    <button onclick="checkAnswers()">Nộp bài</button>
+    <div id="result" class="result"></div>
 </div>
 
 <script>
-function submitQuiz() {
-    const answers = {
-        q1: "b",
-        q2: "b",
-        q3: "c",
-        q4: "a"
-    };
+    const quizData = [
+        { q: "0. Happy ____, Mary!", a: ["May", "birthday", "April", "January"], correct: 1 },
+        { q: "1. What do you want to ____? (I want some chicken)", a: ["eat", "drink", "party", "jam"], correct: 0 },
+        { q: "2. My birthday is ____ February.", a: ["on", "in", "at", "under"], correct: 1 },
+        { q: "3. What do you ____ to drink? (I want some water)", a: ["month", "party", "do", "want"], correct: 3 },
+        { q: "4. Where's the jam? - It's ____ the table.", a: ["some", "with", "on", "in"], correct: 2 },
+        { q: "5. Is your ____ day in July?", a: ["sports", "May", "October", "September"], correct: 0 },
+        { q: "6. Her birthday is ____ December.", a: ["on", "in", "under", "with"], correct: 1 },
+        { q: "7. We play sports in the school ____.", a: ["gym", "month", "birthday", "class"], correct: 0 },
+        { q: "8. When's your sports day? - It's in ____.", a: ["today", "August", "playground", "teacher"], correct: 1 }
+    ];
 
-    let score = 0;
-    let total = Object.keys(answers).length;
-
-    for (let q in answers) {
-        let selected = document.querySelector(`input[name="${q}"]:checked`);
-        if (selected && selected.value === answers[q]) {
-            score++;
-        }
+    function loadQuiz() {
+        const container = document.getElementById('quiz-container');
+        quizData.forEach((item, index) => {
+            let html = `<div class="question">${item.q}</div><div class="options">`;
+            item.a.forEach((opt, i) => {
+                html += `<label><input type="radio" name="q${index}" value="${i}"> ${opt}</label><br>`;
+            });
+            html += `</div>`;
+            container.innerHTML += html;
+        });
     }
 
-    document.getElementById("result").innerHTML =
-        `🎉 Bạn đúng ${score}/${total} câu`;
-}
+    function checkAnswers() {
+        let score = 0;
+        quizData.forEach((item, index) => {
+            const selected = document.querySelector(`input[name="q${index}"]:checked`);
+            if (selected && parseInt(selected.value) === item.correct) score++;
+        });
+        document.getElementById('result').innerHTML = `Bạn trả lời đúng ${score}/${quizData.length} câu.`;
+    }
+
+    loadQuiz();
 </script>
 </body>
 </html>
