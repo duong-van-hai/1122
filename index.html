@@ -2,62 +2,148 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Ôn Tập Tiếng Anh</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ôn Tập Tiếng Anh - Pro</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px; }
-        .container { max-width: 600px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); margin: auto; }
-        .question { font-weight: bold; margin-bottom: 10px; }
-        .options { margin-bottom: 20px; }
-        button { padding: 10px 20px; cursor: pointer; background: #28a745; color: white; border: none; border-radius: 5px; }
-        .result { margin-top: 20px; font-weight: bold; }
-        .correct { color: green; }
-        .incorrect { color: red; }
+        :root { --primary: #4a90e2; --success: #28a745; --danger: #dc3545; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; padding: 20px; }
+        .container { max-width: 650px; width: 100%; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #333; margin-top: 0; }
+        #timer { font-size: 20px; font-weight: bold; text-align: center; color: var(--danger); background: #ffebee; padding: 10px; border-radius: 8px; margin-bottom: 20px; position: sticky; top: 10px; z-index: 100; border: 1px solid var(--danger); }
+        .question-block { margin-bottom: 20px; padding: 15px; border: 1px solid #eee; border-radius: 8px; transition: 0.3s; }
+        .question-text { font-weight: 600; margin-bottom: 12px; color: #2c3e50; }
+        .options label { display: block; padding: 8px 12px; margin: 5px 0; border-radius: 5px; cursor: pointer; background: #f8f9fa; border: 1px solid #ddd; transition: 0.2s; }
+        .options label:hover { background: #e9ecef; }
+        .options input { margin-right: 10px; }
+        .controls { display: flex; gap: 10px; margin-top: 20px; }
+        button { flex: 1; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 16px; }
+        #submit-btn { background: var(--success); color: white; }
+        #reset-btn { background: var(--primary); color: white; }
+        button:hover { opacity: 0.9; transform: translateY(-1px); }
+        #result { margin-top: 20px; padding: 15px; border-radius: 8px; text-align: center; font-size: 18px; display: none; }
+        .correct-answer { background: #d4edda !important; border-color: #c3e6cb !important; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Trắc Nghiệm Ôn Tập</h2>
+    <h2>BÀI ÔN TẬP TIẾNG ANH</h2>
+    <div id="timer">Thời gian còn lại: 05:00</div>
     <div id="quiz-container"></div>
-    <button onclick="checkAnswers()">Nộp bài</button>
-    <div id="result" class="result"></div>
+    
+    <div class="controls">
+        <button id="submit-btn" onclick="checkAnswers()">Nộp bài</button>
+        <button id="reset-btn" onclick="initQuiz()">Làm lại</button>
+    </div>
+    <div id="result"></div>
 </div>
 
 <script>
-    const quizData = [
-        { q: "0. Happy ____, Mary!", a: ["May", "birthday", "April", "January"], correct: 1 },
-        { q: "1. What do you want to ____? (I want some chicken)", a: ["eat", "drink", "party", "jam"], correct: 0 },
-        { q: "2. My birthday is ____ February.", a: ["on", "in", "at", "under"], correct: 1 },
-        { q: "3. What do you ____ to drink? (I want some water)", a: ["month", "party", "do", "want"], correct: 3 },
-        { q: "4. Where's the jam? - It's ____ the table.", a: ["some", "with", "on", "in"], correct: 2 },
-        { q: "5. Is your ____ day in July?", a: ["sports", "May", "October", "September"], correct: 0 },
-        { q: "6. Her birthday is ____ December.", a: ["on", "in", "under", "with"], correct: 1 },
-        { q: "7. We play sports in the school ____.", a: ["gym", "month", "birthday", "class"], correct: 0 },
-        { q: "8. When's your sports day? - It's in ____.", a: ["today", "August", "playground", "teacher"], correct: 1 }
+    const originalData = [
+        { q: "Happy ____, Mary!", a: ["May", "birthday", "April", "January"], correct: "birthday" },
+        { q: "What do you want to ____? (I want some chicken)", a: ["eat", "drink", "party", "jam"], correct: "eat" },
+        { q: "My birthday is ____ February.", a: ["on", "in", "at", "under"], correct: "in" },
+        { q: "What do you ____ to drink? (I want some water)", a: ["month", "party", "do", "want"], correct: "want" },
+        { q: "Where's the jam? - It's ____ the table.", a: ["some", "with", "on", "in"], correct: "on" },
+        { q: "Is your ____ day in July?", a: ["sports", "May", "October", "September"], correct: "sports" },
+        { q: "Her birthday is ____ December.", a: ["on", "in", "under", "with"], correct: "in" },
+        { q: "We play sports in the school ____.", a: ["gym", "month", "birthday", "class"], correct: "gym" },
+        { q: "When's your sports day? - It's in ____.", a: ["today", "August", "playground", "teacher"], correct: "August" }
     ];
 
-    function loadQuiz() {
+    let timer;
+    let timeLeft = 300; // 5 phút
+
+    function shuffle(array) {
+        return array.sort(() => Math.random() - 0.5);
+    }
+
+    function startTimer() {
+        clearInterval(timer);
+        timeLeft = 300;
+        updateTimerDisplay();
+        timer = setInterval(() => {
+            timeLeft--;
+            updateTimerDisplay();
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                checkAnswers(true);
+            }
+        }, 1000);
+    }
+
+    function updateTimerDisplay() {
+        const mins = Math.floor(timeLeft / 60);
+        const secs = timeLeft % 60;
+        document.getElementById('timer').innerText = `Thời gian còn lại: ${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    function initQuiz() {
         const container = document.getElementById('quiz-container');
-        quizData.forEach((item, index) => {
-            let html = `<div class="question">${item.q}</div><div class="options">`;
-            item.a.forEach((opt, i) => {
-                html += `<label><input type="radio" name="q${index}" value="${i}"> ${opt}</label><br>`;
+        const resultDiv = document.getElementById('result');
+        container.innerHTML = '';
+        resultDiv.style.display = 'none';
+        
+        // Trộn câu hỏi
+        const shuffledQuestions = shuffle([...originalData]);
+        
+        shuffledQuestions.forEach((item, index) => {
+            // Trộn đáp án
+            const shuffledOptions = shuffle([...item.a]);
+            let html = `
+                <div class="question-block" data-correct="${item.correct}">
+                    <div class="question-text">${index + 1}. ${item.q}</div>
+                    <div class="options">
+            `;
+            shuffledOptions.forEach(opt => {
+                html += `
+                    <label>
+                        <input type="radio" name="q${index}" value="${opt}"> ${opt}
+                    </label>
+                `;
             });
-            html += `</div>`;
+            html += `</div></div>`;
             container.innerHTML += html;
         });
+        
+        startTimer();
     }
 
-    function checkAnswers() {
+    function checkAnswers(isAuto = false) {
+        clearInterval(timer);
         let score = 0;
-        quizData.forEach((item, index) => {
-            const selected = document.querySelector(`input[name="q${index}"]:checked`);
-            if (selected && parseInt(selected.value) === item.correct) score++;
+        const questions = document.querySelectorAll('.question-block');
+        
+        questions.forEach((block, index) => {
+            const correctVal = block.getAttribute('data-correct');
+            const selected = block.querySelector(`input[name="q${index}"]:checked`);
+            
+            // Hiển thị đáp án đúng bằng màu xanh
+            const labels = block.querySelectorAll('label');
+            labels.forEach(label => {
+                if (label.innerText.trim() === correctVal) {
+                    label.classList.add('correct-answer');
+                }
+            });
+
+            if (selected && selected.value === correctVal) {
+                score++;
+            }
         });
-        document.getElementById('result').innerHTML = `Bạn trả lời đúng ${score}/${quizData.length} câu.`;
+
+        const resultDiv = document.getElementById('result');
+        resultDiv.style.display = 'block';
+        resultDiv.style.backgroundColor = score >= 5 ? '#e8f5e9' : '#ffebee';
+        resultDiv.innerHTML = `
+            <strong>${isAuto ? "HẾT GIỜ! " : ""}Kết quả: ${score}/${originalData.length} câu đúng</strong><br>
+            <small>(Đáp án đúng đã được tô màu xanh)</small>
+        `;
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
 
-    loadQuiz();
+    // Khởi tạo lần đầu
+    initQuiz();
 </script>
+
 </body>
 </html>
