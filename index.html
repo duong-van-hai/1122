@@ -2,98 +2,113 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Web App Sửa Bài Công Nghệ 10 - Mã 101</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web App Hướng Dẫn Sửa Bài Công Nghệ 10 - Mã 101</title>
     <style>
-        :root { --primary: #2c3e50; --secondary: #3498db; --success: #27ae60; --error: #e74c3c; }
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; padding: 20px; line-height: 1.6; }
-        .container { max-width: 1000px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
-        h1, h2 { color: var(--primary); border-bottom: 2px solid var(--secondary); padding-bottom: 10px; }
-        .section { margin-bottom: 40px; }
-        .question { background: #f9f9f9; padding: 15px; margin: 10px 0; border-left: 4px solid var(--secondary); border-radius: 4px; }
-        .ans-btn { background: var(--secondary); color: white; border: none; padding: 5px 15px; cursor: pointer; border-radius: 3px; }
-        .result { display: none; margin-top: 10px; padding: 10px; border-radius: 4px; background: #e8f4fd; border: 1px solid #aad2ed; }
-        .correct { color: var(--success); font-weight: bold; }
-        .explain { font-size: 0.9em; color: #555; font-style: italic; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
-        .tf-true { color: var(--success); } .tf-false { color: var(--error); }
+        :root { --primary: #2c3e50; --secondary: #3498db; --accent: #e67e22; --success: #27ae60; --bg: #f4f7f6; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: #333; line-height: 1.6; padding: 10px; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        h1 { text-align: center; color: var(--primary); border-bottom: 3px solid var(--secondary); padding-bottom: 10px; }
+        h2 { background: var(--primary); color: white; padding: 8px 15px; border-radius: 5px; font-size: 1.2rem; margin-top: 30px; }
+        .question-box { background: #fff; border: 1px solid #ddd; padding: 15px; margin: 15px 0; border-left: 5px solid var(--secondary); transition: 0.3s; }
+        .question-box:hover { box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .ans-btn { background: var(--secondary); color: white; border: none; padding: 7px 15px; cursor: pointer; border-radius: 4px; font-weight: bold; margin-top: 10px; }
+        .ans-btn:hover { background: #2980b9; }
+        .result-area { display: none; margin-top: 10px; padding: 12px; background: #e8f8f5; border-radius: 5px; border-left: 3px solid var(--success); }
+        .correct-ans { color: var(--success); font-weight: bold; font-size: 1.1rem; }
+        .explain { color: #555; font-style: italic; margin-top: 5px; display: block; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9rem; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+        th { background: #eee; }
+        .tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 0.8rem; margin-bottom: 5px; background: #eee; color: #666; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>📝 HƯỚNG DẪN SỬA BÀI KIỂM TRA HỌC KÌ 1</h1>
-    <p><strong>Trường THPT Trần Văn Thành</strong> | <strong>Mã đề: 101</strong></p>
+    <h1>GIÁO VIÊN CÔNG NGHỆ: HƯỚNG DẪN SỬA MÃ ĐỀ 101</h1>
+    <p style="text-align: center;"><em>Học kỳ 1 - Năm học 2025 - 2026</em></p>
 
-    <div class="section">
-        <h2>Phần I: Trắc nghiệm (12 câu)</h2>
-        <div id="p1-questions"></div>
-    </div>
+    <h2>Phần I: Trắc nghiệm nhiều phương án (12 câu)</h2>
+    <div id="phần1"></div>
 
-    <div class="section">
-        <h2>Phần II: Trắc nghiệm Đúng/Sai (4 câu)</h2>
-        <div id="p2-questions"></div>
-    </div>
+    <h2>Phần II: Trắc nghiệm Đúng/Sai (4 câu)</h2>
+    <div id="phần2"></div>
 
-    <div class="section">
-        <h2>Phần III: Tự luận (3 câu)</h2>
-        <div class="question">
-            <p><strong>Câu 1:</strong> Đánh giá 2 loại điện thoại (Galaxy S25 & Điện thoại cổ)[cite: 123, 128].</p>
-            <button class="ans-btn" onclick="showTL(1)">Xem gợi ý chấm điểm</button>
-            <div id="tl1" class="result">
-                <ul>
-                    <li><strong>Cấu tạo:</strong> Hình 1 (Smartphone) màn hình lớn, ít phím; Hình 2 nhiều phím vật lý[cite: 123].</li>
-                    <li><strong>Tính năng:</strong> Hình 1 đa năng (AI, Internet); Hình 2 nghe gọi cơ bản.</li>
-                    <li><strong>Thẩm mĩ:</strong> Hình 1 hiện đại; Hình 2 cổ điển.</li>
-                </ul>
-            </div>
-        </div>
-        <div class="question">
-            <p><strong>Câu 2:</strong> Liệt kê tiêu chuẩn trình bày bản vẽ kĩ thuật.</p>
-            <button class="ans-btn" onclick="showTL(2)">Xem đáp án</button>
-            <div id="tl2" class="result">
-                Đủ 5 tiêu chuẩn: Khổ giấy, Tỉ lệ, Nét vẽ, Chữ viết, Ghi kích thước.
-            </div>
-        </div>
-        <div class="question">
-            <p><strong>Câu 3:</strong> Vẽ hình chiếu bằng và đứng theo PPCG 1.</p>
-            <button class="ans-btn" onclick="showTL(3)">Xem hướng dẫn vẽ</button>
-            <div id="tl3" class="result">
-                - <strong>Hình chiếu đứng:</strong> Vẽ phía trên, hướng nhìn từ trước.<br>
-                - <strong>Hình chiếu bằng:</strong> Vẽ ngay dưới hình chiếu đứng, hướng nhìn từ trên.
-            </div>
-        </div>
-    </div>
+    <h2>Phần III: Tự luận (3 câu)</h2>
+    <div id="phần3"></div>
 </div>
 
 <script>
+    // DỮ LIỆU PHẦN 1
     const p1Data = [
-        { q: "Câu 1: Đường gióng kích thước vẽ bằng nét gì? [cite: 11]", a: "A. Nét liền mảnh [cite: 12]", e: "Theo TCVN, đường gióng và đường kích thước dùng nét mảnh." },
-        { q: "Câu 2: Công nghệ biến điện năng thành cơ năng? [cite: 12]", a: "C. Công nghệ điện – cơ [cite: 16]", e: "Dựa trên nguyên lý cảm ứng điện từ để quay động cơ." },
-        { q: "Câu 3: Công nghệ là gì? [cite: 18]", a: "A. Giải pháp, quy trình... biến nguồn lực thành sản phẩm ", e: "Định nghĩa tổng quát về công nghệ." },
-        { q: "Câu 6: Hình ảnh minh họa là công nghệ nào? [cite: 34]", a: "C. Công nghệ in 3D [cite: 37]", e: "Máy đang thực hiện bồi đắp vật thể theo lớp." },
-        { q: "Câu 10: Có bao nhiêu khổ giấy chính? [cite: 65]", a: "D. 5 [cite: 69]", e: "Các khổ từ A0 đến A4." }
-        // ... Thêm đủ 12 câu tại đây
+        { q: "Câu 1: Đường gióng kích thước được vẽ bằng nét vẽ nào?", a: "A. Nét liền mảnh", e: "Theo TCVN, đường gióng và đường kích thước dùng nét liền mảnh." },
+        { q: "Câu 2: Ngành công nghệ nào biến đổi điện năng thành cơ năng dựa trên nguyên lý cảm ứng điện từ?", a: "C. Công nghệ điện – cơ", e: "Ví dụ điển hình là động cơ điện." },
+        { q: "Câu 3: Công nghệ là gì?", a: "A. Giải pháp, quy trình, bí quyết kĩ thuật... biến đổi nguồn lực thành sản phẩm", e: "Đây là định nghĩa khoa học và đầy đủ nhất." },
+        { q: "Câu 4: Ngành nghề nào thuộc lĩnh vực cơ khí?", a: "C. Cơ khí chế tạo", e: "Lĩnh vực này tập trung vào thiết kế và sản xuất máy móc." },
+        { q: "Câu 5: Công nghệ nào dùng để tạo ra các mô hình 3D bằng cách bồi đắp vật liệu theo từng lớp?", a: "B. Công nghệ in 3D", e: "Sản xuất bồi đắp là đặc trưng của in 3D." },
+        { q: "Câu 6: (Quan sát hình ảnh thiết bị in 3D) Thiết bị này thuộc công nghệ nào?", a: "C. Công nghệ in 3D", e: "Hình ảnh mô tả đầu phun đang tạo lớp vật liệu." },
+        { q: "Câu 7: Đâu là một ví dụ về công nghệ điện quang?", a: "B. Đèn LED", e: "Biến điện năng thành quang năng (ánh sáng)." },
+        { q: "Câu 8: Cách mạng công nghiệp lần thứ 4 (4.0) bắt đầu vào thời gian nào?", a: "D. Đầu thế kỷ XXI", e: "Đặc trưng bởi AI, IoT, Dữ liệu lớn." },
+        { q: "Câu 9: Hệ thống kỹ thuật gồm các phần tử nào?", a: "B. Đầu vào, bộ phận xử lý và đầu ra", e: "Đây là cấu trúc 3 phần cơ bản của mọi hệ thống." },
+        { q: "Câu 10: Theo tiêu chuẩn TCVN, có bao nhiêu khổ giấy chính?", a: "D. 5", e: "A0, A1, A2, A3, A4." },
+        { q: "Câu 11: Robot thông minh là sản phẩm của cuộc cách mạng nào?", a: "C. Cách mạng 4.0", e: "Robot tích hợp trí tuệ nhân tạo." },
+        { q: "Câu 12: Công nghệ mô phỏng hoạt động trí tuệ của con người là?", a: "B. Công nghệ Trí tuệ nhân tạo (AI)", e: "Mô phỏng khả năng học tập và tư duy." }
     ];
 
+    // DỮ LIỆU PHẦN 2
     const p2Data = [
-        { q: "Câu 2: Nhận định về vật thể hình chữ H [cite: 89]", r: [["A", "Đúng [cite: 90]"], ["B", "Đúng [cite: 91]"], ["C", "Sai"], ["D", "Đúng [cite: 99]"]] },
-        { q: "Câu 4: Hình chiếu trục đo vuông góc đều vs xiên góc cân [cite: 115]", r: [["A", "Đúng "], ["B", "Sai "], ["C", "Sai [cite: 120]"], ["D", "Đúng [cite: 121]"]] }
+        { q: "Câu 1: Nhận định về cuộc cách mạng công nghiệp", r: [["A", "Đúng"], ["B", "Sai"], ["C", "Đúng"], ["D", "Đúng"]] },
+        { q: "Câu 2: Nhận định về vẽ kĩ thuật vật thể hình chữ H", r: [["A", "Đúng"], ["B", "Đúng"], ["C", "Sai"], ["D", "Đúng"]] },
+        { q: "Câu 3: Nhận định về mặt cắt và hình cắt", r: [["A", "Đúng"], ["B", "Sai"], ["C", "Sai"], ["D", "Đúng"]] },
+        { q: "Câu 4: Nhận định về hình chiếu trục đo", r: [["A", "Đúng"], ["B", "Sai"], ["C", "Sai"], ["D", "Đúng"]] }
     ];
 
-    // Render logic
-    const p1Div = document.getElementById('p1-questions');
-    p1Data.forEach((item, i) => {
-        p1Div.innerHTML += `<div class="question"><p>${item.q}</p><button class="ans-btn" onclick="document.getElementById('p1a${i}').style.display='block'">Giải đáp</button><div id="p1a${i}" class="result"><span class="correct">${item.a}</span><br><span class="explain">${item.e}</span></div></div>`;
-    });
+    // DỮ LIỆU PHẦN 3
+    const p3Data = [
+        { q: "Câu 1: Đánh giá Smartphone (Galaxy S25) và Điện thoại cổ.", a: "Tiêu chí: Cấu tạo (Hình 1 gọn nhẹ, Hình 2 cồng kềnh); Tính năng (Hình 1 đa năng, AI; Hình 2 nghe gọi); Thẩm mĩ (Hình 1 sang trọng; Hình 2 cổ điển); Giá thành (Hình 1 rất cao; Hình 2 thấp)." },
+        { q: "Câu 2: Liệt kê các tiêu chuẩn trình bày bản vẽ kĩ thuật?", a: "Gồm 5 tiêu chuẩn: 1. Khổ giấy; 2. Tỉ lệ; 3. Nét vẽ; 4. Chữ viết; 5. Ghi kích thước." },
+        { q: "Câu 3: Vẽ hình chiếu đứng và hình chiếu bằng (PPCG1).", a: "Hướng dẫn: Hình chiếu đứng vẽ phía trên (diện tích chữ L); Hình chiếu bằng vẽ ngay bên dưới hình chiếu đứng (diện tích nhìn từ trên xuống)." }
+    ];
 
-    const p2Div = document.getElementById('p2-questions');
-    p2Data.forEach((item, i) => {
-        let rows = item.r.map(row => `<tr><td>${row[0]}</td><td>${row[1]}</td></tr>`).join('');
-        p2Div.innerHTML += `<div class="question"><p>${item.q}</p><button class="ans-btn" onclick="document.getElementById('p2a${i}').style.display='block'">Đáp án chi tiết</button><div id="p2a${i}" class="result"><table><tr><th>Ý</th><th>Đáp án</th></tr>${rows}</table></div></div>`;
-    });
+    // Render hàm
+    function render() {
+        // Phần 1
+        let p1Html = "";
+        p1Data.forEach((item, i) => {
+            p1Html += `<div class="question-box"><span class="tag">Trắc nghiệm</span><p>${item.q}</p>
+            <button class="ans-btn" onclick="show('p1_${i}')">Kiểm tra đáp án</button>
+            <div id="p1_${i}" class="result-area"><span class="correct-ans">${item.a}</span><span class="explain">${item.e}</span></div></div>`;
+        });
+        document.getElementById('phần1').innerHTML = p1Html;
 
-    function showTL(id) { document.getElementById('tl'+id).style.display = 'block'; }
+        // Phần 2
+        let p2Html = "";
+        p2Data.forEach((item, i) => {
+            let rows = item.r.map(row => `<tr><td>${row[0]}</td><td style="color:${row[1]=='Đúng'?'green':'red'}"><b>${row[1]}</b></td></tr>`).join('');
+            p2Html += `<div class="question-box"><span class="tag">Đúng/Sai</span><p><strong>${item.q}</strong></p>
+            <button class="ans-btn" onclick="show('p2_${i}')">Xem đáp án chi tiết</button>
+            <div id="p2_${i}" class="result-area"><table><tr><th>Ý</th><th>Đáp án</th></tr>${rows}</table></div></div>`;
+        });
+        document.getElementById('phần2').innerHTML = p2Html;
+
+        // Phần 3
+        let p3Html = "";
+        p3Data.forEach((item, i) => {
+            p3Html += `<div class="question-box"><span class="tag">Tự luận</span><p><strong>${item.q}</strong></p>
+            <button class="ans-btn" onclick="show('p3_${i}')">Gợi ý trả lời</button>
+            <div id="p3_${i}" class="result-area">${item.a}</div></div>`;
+        });
+        document.getElementById('phần3').innerHTML = p3Html;
+    }
+
+    function show(id) {
+        let el = document.getElementById(id);
+        el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+    }
+
+    render();
 </script>
+
 </body>
 </html>
