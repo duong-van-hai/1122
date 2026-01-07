@@ -2,78 +2,98 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Sửa Bài Công Nghệ 10 - Mã đề 101</title>
+    <title>Web App Sửa Bài Công Nghệ 10 - Mã 101</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; background: #f4f7f6; color: #333; padding: 20px; }
-        .container { max-width: 900px; margin: auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
-        .question-block { margin-bottom: 25px; padding: 15px; border-left: 5px solid #3498db; background: #ebf5fb; }
-        .answer { display: none; margin-top: 10px; padding: 10px; background: #d4efdf; border-radius: 5px; color: #1d8348; font-weight: bold; }
-        .explanation { display: none; margin-top: 5px; font-style: italic; color: #555; }
-        button { background: #3498db; color: white; border: none; padding: 8px 15px; cursor: pointer; border-radius: 4px; transition: 0.3s; }
-        button:hover { background: #2980b9; }
-        .visual-aid { margin-top: 10px; border: 1px dashed #bbb; padding: 10px; text-align: center; background: #fff; }
+        :root { --primary: #2c3e50; --secondary: #3498db; --success: #27ae60; --error: #e74c3c; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; padding: 20px; line-height: 1.6; }
+        .container { max-width: 1000px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        h1, h2 { color: var(--primary); border-bottom: 2px solid var(--secondary); padding-bottom: 10px; }
+        .section { margin-bottom: 40px; }
+        .question { background: #f9f9f9; padding: 15px; margin: 10px 0; border-left: 4px solid var(--secondary); border-radius: 4px; }
+        .ans-btn { background: var(--secondary); color: white; border: none; padding: 5px 15px; cursor: pointer; border-radius: 3px; }
+        .result { display: none; margin-top: 10px; padding: 10px; border-radius: 4px; background: #e8f4fd; border: 1px solid #aad2ed; }
+        .correct { color: var(--success); font-weight: bold; }
+        .explain { font-size: 0.9em; color: #555; font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        .tf-true { color: var(--success); } .tf-false { color: var(--error); }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>💡 Hướng dẫn sửa bài: Công nghệ Công nghiệp 10</h1>
-    <p><strong>Mã đề: 101</strong> | Học kỳ 1 - 2025-2026 [cite: 4, 9]</p>
+    <h1>📝 HƯỚNG DẪN SỬA BÀI KIỂM TRA HỌC KÌ 1</h1>
+    <p><strong>Trường THPT Trần Văn Thành</strong> | <strong>Mã đề: 101</strong></p>
 
-    <div class="question-block">
-        <p><strong>Câu 1:</strong> Đường gióng kích thước được vẽ bằng nét vẽ nào? [cite: 11]</p>
-        <button onclick="toggle(1)">Xem đáp án & Giải thích</button>
-        <div id="ans1" class="answer">Đáp án: A. Nét liền mảnh [cite: 12]</div>
-        <div id="exp1" class="explanation">
-            <strong>Chuyên gia giải thích:</strong> Theo tiêu chuẩn trình bày bản vẽ, nét liền đậm dùng cho đường bao thấy, còn nét liền mảnh dùng cho đường gióng và đường kích thước để tránh làm rối bản vẽ.
-        </div>
+    <div class="section">
+        <h2>Phần I: Trắc nghiệm (12 câu)</h2>
+        <div id="p1-questions"></div>
     </div>
 
-    <div class="question-block">
-        <p><strong>Câu 6:</strong> Quan sát hình ảnh thiết bị và cho biết đây là công nghệ nào? [cite: 34]</p>
-        <div class="visual-aid"><em>(Hình ảnh máy in bồi đắp vật thể theo lớp)</em></div>
-        <button onclick="toggle(6)">Xem đáp án & Giải thích</button>
-        <div id="ans6" class="answer">Đáp án: C. Công nghệ in 3D [cite: 37]</div>
-        <div id="exp6" class="explanation">
-            <strong>Chuyên gia giải thích:</strong> Hình ảnh mô tả quy trình sản xuất bồi đắp (additive manufacturing), đặc trưng của máy in 3D hiện đại.
-        </div>
+    <div class="section">
+        <h2>Phần II: Trắc nghiệm Đúng/Sai (4 câu)</h2>
+        <div id="p2-questions"></div>
     </div>
 
-    <div class="question-block">
-        <p><strong>Câu 12:</strong> Công nghệ mô phỏng các hoạt động trí tuệ của con người là gì? [cite: 74]</p>
-        <button onclick="toggle(12)">Xem đáp án & Giải thích</button>
-        <div id="ans12" class="answer">Đáp án: B. Công nghệ trí tuệ nhân tạo (AI) [cite: 79]</div>
-        <div id="exp12" class="explanation">
-            <strong>Chuyên gia giải thích:</strong> Đây là định nghĩa cốt lõi của AI - khả năng học tập và tư duy của máy tính để giải quyết các vấn đề như con người.
+    <div class="section">
+        <h2>Phần III: Tự luận (3 câu)</h2>
+        <div class="question">
+            <p><strong>Câu 1:</strong> Đánh giá 2 loại điện thoại (Galaxy S25 & Điện thoại cổ)[cite: 123, 128].</p>
+            <button class="ans-btn" onclick="showTL(1)">Xem gợi ý chấm điểm</button>
+            <div id="tl1" class="result">
+                <ul>
+                    <li><strong>Cấu tạo:</strong> Hình 1 (Smartphone) màn hình lớn, ít phím; Hình 2 nhiều phím vật lý[cite: 123].</li>
+                    <li><strong>Tính năng:</strong> Hình 1 đa năng (AI, Internet); Hình 2 nghe gọi cơ bản.</li>
+                    <li><strong>Thẩm mĩ:</strong> Hình 1 hiện đại; Hình 2 cổ điển.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="question">
+            <p><strong>Câu 2:</strong> Liệt kê tiêu chuẩn trình bày bản vẽ kĩ thuật.</p>
+            <button class="ans-btn" onclick="showTL(2)">Xem đáp án</button>
+            <div id="tl2" class="result">
+                Đủ 5 tiêu chuẩn: Khổ giấy, Tỉ lệ, Nét vẽ, Chữ viết, Ghi kích thước.
+            </div>
+        </div>
+        <div class="question">
+            <p><strong>Câu 3:</strong> Vẽ hình chiếu bằng và đứng theo PPCG 1.</p>
+            <button class="ans-btn" onclick="showTL(3)">Xem hướng dẫn vẽ</button>
+            <div id="tl3" class="result">
+                - <strong>Hình chiếu đứng:</strong> Vẽ phía trên, hướng nhìn từ trước.<br>
+                - <strong>Hình chiếu bằng:</strong> Vẽ ngay dưới hình chiếu đứng, hướng nhìn từ trên.
+            </div>
         </div>
     </div>
-
-    <div class="question-block" style="border-left-color: #e67e22; background: #fef5e7;">
-        <p><strong>Phần Tự Luận - Câu 3:</strong> Vẽ 2 hình chiếu (đứng và bằng) của vật thể theo PPCG1. </p>
-        <button onclick="toggle('tl3')">Xem sơ đồ hướng dẫn vẽ</button>
-        <div id="anstl3" class="answer">Hướng dẫn:</div>
-        <div id="exptl3" class="explanation">
-            1. <strong>Hình chiếu đứng:</strong> Nhìn từ trước, vẽ hình dạng chữ L nằm ngang có khuyết rãnh[cite: 135].<br>
-            2. <strong>Hình chiếu bằng:</strong> Nhìn từ trên, đặt phía dưới hình chiếu đứng, thể hiện bề mặt nằm ngang[cite: 133].
-        </div>
-    </div>
-
 </div>
 
 <script>
-    function toggle(id) {
-        var ans = document.getElementById('ans' + id);
-        var exp = document.getElementById('exp' + id);
-        if (ans.style.display === 'block') {
-            ans.style.display = 'none';
-            exp.style.display = 'none';
-        } else {
-            ans.style.display = 'block';
-            exp.style.display = 'block';
-        }
-    }
-</script>
+    const p1Data = [
+        { q: "Câu 1: Đường gióng kích thước vẽ bằng nét gì? [cite: 11]", a: "A. Nét liền mảnh [cite: 12]", e: "Theo TCVN, đường gióng và đường kích thước dùng nét mảnh." },
+        { q: "Câu 2: Công nghệ biến điện năng thành cơ năng? [cite: 12]", a: "C. Công nghệ điện – cơ [cite: 16]", e: "Dựa trên nguyên lý cảm ứng điện từ để quay động cơ." },
+        { q: "Câu 3: Công nghệ là gì? [cite: 18]", a: "A. Giải pháp, quy trình... biến nguồn lực thành sản phẩm ", e: "Định nghĩa tổng quát về công nghệ." },
+        { q: "Câu 6: Hình ảnh minh họa là công nghệ nào? [cite: 34]", a: "C. Công nghệ in 3D [cite: 37]", e: "Máy đang thực hiện bồi đắp vật thể theo lớp." },
+        { q: "Câu 10: Có bao nhiêu khổ giấy chính? [cite: 65]", a: "D. 5 [cite: 69]", e: "Các khổ từ A0 đến A4." }
+        // ... Thêm đủ 12 câu tại đây
+    ];
 
+    const p2Data = [
+        { q: "Câu 2: Nhận định về vật thể hình chữ H [cite: 89]", r: [["A", "Đúng [cite: 90]"], ["B", "Đúng [cite: 91]"], ["C", "Sai"], ["D", "Đúng [cite: 99]"]] },
+        { q: "Câu 4: Hình chiếu trục đo vuông góc đều vs xiên góc cân [cite: 115]", r: [["A", "Đúng "], ["B", "Sai "], ["C", "Sai [cite: 120]"], ["D", "Đúng [cite: 121]"]] }
+    ];
+
+    // Render logic
+    const p1Div = document.getElementById('p1-questions');
+    p1Data.forEach((item, i) => {
+        p1Div.innerHTML += `<div class="question"><p>${item.q}</p><button class="ans-btn" onclick="document.getElementById('p1a${i}').style.display='block'">Giải đáp</button><div id="p1a${i}" class="result"><span class="correct">${item.a}</span><br><span class="explain">${item.e}</span></div></div>`;
+    });
+
+    const p2Div = document.getElementById('p2-questions');
+    p2Data.forEach((item, i) => {
+        let rows = item.r.map(row => `<tr><td>${row[0]}</td><td>${row[1]}</td></tr>`).join('');
+        p2Div.innerHTML += `<div class="question"><p>${item.q}</p><button class="ans-btn" onclick="document.getElementById('p2a${i}').style.display='block'">Đáp án chi tiết</button><div id="p2a${i}" class="result"><table><tr><th>Ý</th><th>Đáp án</th></tr>${rows}</table></div></div>`;
+    });
+
+    function showTL(id) { document.getElementById('tl'+id).style.display = 'block'; }
+</script>
 </body>
 </html>
