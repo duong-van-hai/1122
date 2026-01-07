@@ -2,99 +2,282 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Sửa Bài Công Nghệ 10 - Mã 101 - Final</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ thống Hướng dẫn Sửa bài Công nghệ 10</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root { --primary: #1a252f; --secondary: #2980b9; --success: #27ae60; --danger: #c0392b; --bg: #ffffff; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: #2c3e50; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
-        .slide-container { width: 98vw; height: 95vh; background: var(--bg); border-radius: 15px; position: relative; padding: 40px 60px; display: flex; flex-direction: column; box-sizing: border-box; }
-        .header-info { display: flex; justify-content: space-between; align-items: center; border-bottom: 5px solid var(--secondary); padding-bottom: 10px; }
-        .tag { background: var(--secondary); color: white; padding: 5px 25px; border-radius: 12px; font-size: 1.6rem; font-weight: bold; }
-        .page-num { font-size: 1.6rem; color: #7f8c8d; font-weight: bold; }
-        h2 { color: var(--primary); font-size: 2.8rem; margin: 25px 0; line-height: 1.3; }
-        .content { flex-grow: 1; font-size: 2.2rem; color: #222; display: flex; flex-direction: column; justify-content: center; }
-        .ans-box { background: #fff9c4; border: 6px solid var(--success); padding: 25px; border-radius: 20px; margin-top: 20px; display: none; animation: popIn 0.3s ease-out; }
-        .correct-text { color: var(--success); font-weight: 900; font-size: 2.6rem; }
-        table { width: 100%; border-collapse: collapse; font-size: 1.8rem; }
-        th, td { border: 3px solid #333; padding: 15px; text-align: left; }
-        th { background: #f2f2f2; }
-        .st-true { color: var(--success); font-weight: bold; }
-        .st-false { color: var(--danger); font-weight: bold; }
-        .nav-btns { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; }
-        button { padding: 15px 45px; font-size: 1.6rem; border: none; border-radius: 60px; cursor: pointer; font-weight: bold; transition: 0.3s; box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
-        .btn-prev { background: #7f8c8d; color: white; }
-        .btn-next { background: var(--secondary); color: white; }
-        .btn-ans { background: #e67e22; color: white; }
-        @keyframes popIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        :root {
+            --sidebar-width: 280px;
+            --primary-color: #2563eb;
+            --bg-body: #f1f5f9;
+            --text-main: #1e293b;
+            --success: #059669;
+            --accent: #f59e0b;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: #1e293b;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            background: #0f172a;
+            text-align: center;
+        }
+
+        .sidebar-header h3 { margin: 0; font-size: 1.2rem; color: #38bdf8; }
+
+        .nav-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+            list-style: none;
+            margin: 0;
+        }
+
+        .nav-item {
+            padding: 12px 15px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            font-size: 0.95rem;
+            color: #cbd5e1;
+        }
+
+        .nav-item:hover { background: #334155; color: white; }
+        .nav-item.active { background: var(--primary-color); color: white; font-weight: bold; }
+        .nav-item i { margin-right: 10px; width: 20px; }
+
+        .section-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #94a3b8;
+            margin: 20px 0 10px 15px;
+            letter-spacing: 1px;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            background: white;
+            margin: 15px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        .top-bar {
+            padding: 15px 30px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .question-container {
+            flex: 1;
+            padding: 40px 60px;
+            overflow-y: auto;
+        }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: #dbeafe;
+            color: var(--primary-color);
+        }
+
+        h1.question-text {
+            font-size: 2.2rem;
+            line-height: 1.4;
+            margin: 20px 0;
+            color: #0f172a;
+        }
+
+        .answer-card {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
+            display: none;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        .answer-card.visible { display: block; }
+
+        .ans-header { color: var(--success); font-weight: 800; font-size: 1.5rem; margin-bottom: 10px; display: flex; align-items: center; }
+        .ans-header i { margin-right: 10px; }
+
+        .explanation-text { font-size: 1.2rem; color: #475569; border-top: 1px solid #cbd5e1; padding-top: 15px; margin-top: 15px; }
+
+        /* Controls */
+        .controls {
+            padding: 20px 40px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 12px 28px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary { background: #f1f5f9; color: #475569; }
+        .btn-primary { background: var(--primary-color); color: white; }
+        .btn-accent { background: var(--accent); color: white; }
+        button:hover { filter: brightness(0.9); transform: translateY(-1px); }
+
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; font-size: 1.1rem; }
+        th, td { border: 1px solid #e2e8f0; padding: 15px; text-align: left; }
+        th { background: #f8fafc; color: #64748b; }
+        .true-text { color: var(--success); font-weight: bold; }
+        .false-text { color: #ef4444; font-weight: bold; }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-<div class="slide-container">
-    <div class="header-info">
-        <div id="slide-tag" class="tag">ĐANG TẢI...</div>
-        <div id="page-info" class="page-num">Slide 0 / 19</div>
+<div class="sidebar">
+    <div class="sidebar-header">
+        <h3><i class="fas fa-graduation-cap"></i> CÔNG NGHỆ 10</h3>
+        <small style="color: #94a3b8">Hệ thống sửa bài Mã 101</small>
     </div>
-    <div class="content" id="slide-content"></div>
-    <div class="nav-btns">
-        <button class="btn-prev" onclick="changeSlide(-1)">⬅ TRƯỚC (←)</button>
-        <button class="btn-ans" onclick="showAnswer()">ĐÁP ÁN (Space)</button>
-        <button class="btn-next" onclick="changeSlide(1)">TIẾP (→) ➡</button>
+    <ul class="nav-list" id="sidebar-nav">
+        </ul>
+</div>
+
+<div class="main-content">
+    <div class="top-bar">
+        <span class="badge" id="type-badge">PHẦN I: TRẮC NGHIỆM</span>
+        <div class="page-num" id="progress-text">Câu 1 / 19</div>
+    </div>
+
+    <div class="question-container">
+        <h1 class="question-text" id="q-text">Đang tải câu hỏi...</h1>
+        <div id="q-extra"></div> <div class="answer-card" id="answer-card">
+            <div class="ans-header"><i class="fas fa-check-circle"></i> ĐÁP ÁN CHÍNH XÁC</div>
+            <div id="ans-val" style="font-size: 1.8rem; font-weight: 700; color: #1e293b;"></div>
+            <div class="explanation-text" id="exp-val"></div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn-secondary" onclick="changeSlide(-1)"><i class="fas fa-arrow-left"></i> Câu trước</button>
+        <button class="btn-accent" onclick="toggleAnswer()"><i class="fas fa-eye"></i> Hiện đáp án (Space)</button>
+        <button class="btn-primary" onclick="changeSlide(1)">Câu tiếp theo <i class="fas fa-arrow-right"></i></button>
     </div>
 </div>
 
 <script>
     const data = [
-        // 12 CÂU TRẮC NGHIỆM
-        { t: "PHẦN I - CÂU 1", q: "Đường gióng kích thước được vẽ bằng nét gì?", a: "A. Nét liền mảnh", e: "TCVN: Đường gióng và đường kích thước dùng nét mảnh." },
-        { t: "PHẦN I - CÂU 2", q: "Biến điện năng thành cơ năng dựa trên cảm ứng điện từ?", a: "C. Công nghệ điện – cơ", e: "Ứng dụng trong các loại động cơ điện." },
-        { t: "PHẦN I - CÂU 3", q: "Định nghĩa về Công nghệ?", a: "A. Giải pháp, quy trình... biến nguồn lực thành sản phẩm", e: "Bản chất của công nghệ là tạo ra giá trị từ nguồn lực." },
-        { t: "PHẦN I - CÂU 4", q: "Ngành nghề nào thuộc lĩnh vực cơ khí?", a: "C. Cơ khí chế tạo", e: "Thiết kế và sản xuất các thiết bị máy móc." },
-        { t: "PHẦN I - CÂU 5", q: "Tạo mô hình 3D bằng bồi đắp vật liệu theo lớp?", a: "B. Công nghệ in 3D", e: "Khác với CNC, in 3D là phương pháp cộng vật liệu." },
-        { t: "PHẦN I - CÂU 6", q: "Thiết bị trong hình thuộc công nghệ nào?", a: "C. Công nghệ in 3D", e: "Hình ảnh mô tả quy trình in 3D vật thể." },
-        { t: "PHẦN I - CÂU 7", q: "Ví dụ về công nghệ điện quang?", a: "B. Đèn LED", e: "Điện quang = Biến điện năng thành ánh sáng." },
-        { t: "PHẦN I - CÂU 8", q: "Cách mạng 4.0 bắt đầu vào thời gian nào?", a: "D. Đầu thế kỷ XXI", e: "Kỷ nguyên số và trí tuệ nhân tạo." },
-        { t: "PHẦN I - CÂU 9", q: "Cấu trúc hệ thống kỹ thuật?", a: "B. Đầu vào, bộ phận xử lý và đầu ra", e: "Sơ đồ khối cơ bản của mọi hệ thống kỹ thuật." },
-        { t: "PHẦN I - CÂU 10", q: "Có bao nhiêu khổ giấy chính theo TCVN?", a: "D. 5", e: "Các khổ từ A0 đến A4." },
-        { t: "PHẦN I - CÂU 11", q: "Robot thông minh thuộc cuộc cách mạng nào?", a: "C. Cách mạng 4.0", e: "Tích hợp AI và tự động hóa cao." },
-        { t: "PHẦN I - CÂU 12", q: "Mô phỏng trí tuệ con người trên máy tính?", a: "B. Công nghệ AI", e: "Trí tuệ nhân tạo - Artificial Intelligence." },
+        { t: "TRẮC NGHIỆM", q: "Đường gióng kích thước được vẽ bằng nét vẽ nào?", a: "A. Nét liền mảnh", e: "Theo TCVN, các đường phụ trợ như đường gióng, đường kích thước phải dùng nét mảnh để làm nổi bật vật thể vẽ bằng nét đậm." },
+        { t: "TRẮC NGHIỆM", q: "Ngành công nghệ nào biến đổi điện năng thành cơ năng dựa trên cảm ứng điện từ?", a: "C. Công nghệ điện – cơ", e: "Nguyên lý này là nền tảng của các loại động cơ điện dùng trong sinh hoạt và công nghiệp." },
+        { t: "TRẮC NGHIỆM", q: "Công nghệ là gì?", a: "A. Giải pháp, quy trình, bí quyết kĩ thuật...", e: "Công nghệ bao hàm cả tri thức (bí quyết) lẫn công cụ để giải quyết vấn đề sản xuất." },
+        { t: "TRẮC NGHIỆM", q: "Ngành nghề nào thuộc lĩnh vực cơ khí?", a: "C. Cơ khí chế tạo", e: "Lĩnh vực này chịu trách nhiệm sản xuất mọi chi tiết từ ốc vít đến động cơ phản lực." },
+        { t: "TRẮC NGHIỆM", q: "Công nghệ bồi đắp vật liệu theo từng lớp?", a: "B. Công nghệ in 3D", e: "Sản xuất bồi đắp (Additive Manufacturing) giúp tạo ra các chi tiết phức tạp mà phương pháp cắt gọt không làm được." },
+        { t: "TRẮC NGHIỆM", q: "Quan sát thiết bị in 3D trong đề bài. Đây là gì?", a: "C. Công nghệ in 3D", e: "Dấu hiệu nhận biết là đầu phun đang đùn vật liệu nóng chảy theo lớp." },
+        { t: "TRẮC NGHIỆM", q: "Đâu là ví dụ về công nghệ điện quang?", a: "B. Đèn LED", e: "LED là công nghệ bán dẫn phát sáng hiện đại nhất hiện nay." },
+        { t: "TRẮC NGHIỆM", q: "Cách mạng công nghiệp 4.0 bắt đầu khi nào?", a: "D. Đầu thế kỷ XXI", e: "Kỷ nguyên của trí tuệ nhân tạo, vạn vật kết nối và dữ liệu lớn." },
+        { t: "TRẮC NGHIỆM", q: "Thành phần hệ thống kỹ thuật?", a: "B. Đầu vào, bộ phận xử lý và đầu ra", e: "Bất kể quy mô nào, hệ thống đều vận hành theo chu trình: Tiếp nhận - Xử lý - Kết quả." },
+        { t: "TRẮC NGHIỆM", q: "Có bao nhiêu khổ giấy chính theo TCVN?", a: "D. 5", e: "Kích thước giảm dần từ A0 đến A4 theo tỷ lệ căn 2." },
+        { t: "TRẮC NGHIỆM", q: "Robot thông minh thuộc cách mạng nào?", a: "C. Cách mạng 4.0", e: "Khác với robot tự động hóa ở cách mạng 3.0, robot 4.0 có khả năng tự tư duy và học hỏi." },
+        { t: "TRẮC NGHIỆM", q: "Công nghệ mô phỏng trí tuệ con người?", a: "B. Công nghệ AI", e: "Trí tuệ nhân tạo đang thay đổi cách chúng ta vận hành thế giới kỹ thuật." },
 
-        // 4 CÂU ĐÚNG/SAI
-        { t: "PHẦN II - CÂU 1", q: "Về các cuộc cách mạng công nghiệp:", isTF: true, 
-          rows: [["A. 1.0 dùng động cơ hơi nước", "Đúng"], ["B. 3.0 dựa trên điện và SX hàng loạt", "Sai"], ["C. 4.0 gắn với AI, IoT", "Đúng"], ["D. 2.0 bắt đầu từ cuối thế kỷ XIX", "Đúng"]] },
-        { t: "PHẦN II - CÂU 2", q: "Vật thể hình chữ H:", isTF: true, 
-          rows: [["A. Có 2 phương pháp chiếu (PPCG1, 3)", "Đúng"], ["B. Hướng nhìn quyết định vị trí chiếu", "Đúng"], ["C. Đường bao thấy vẽ nét mảnh", "Sai"], ["D. Hình chiếu bằng ở dưới hình chiếu đứng", "Đúng"]] },
-        { t: "PHẦN II - CÂU 3", q: "Mặt cắt và hình cắt:", isTF: true, 
-          rows: [["A. Mặt cắt biểu diễn tiết diện ngang", "Đúng"], ["B. Hình cắt không vẽ phần sau mặt cắt", "Sai"], ["C. Gạch gạch là phần vật liệu bị cắt", "Đúng"], ["D. Mặt cắt chập vẽ nét đậm", "Sai"]] },
-        { t: "PHẦN II - CÂU 4", q: "Hình chiếu trục đo:", isTF: true, 
-          rows: [["A. Vuông góc đều p=q=r=1", "Đúng"], ["B. Xiên góc cân có góc 120 độ", "Sai"], ["C. Tăng tính trực quan cho bản vẽ", "Đúng"], ["D. Xiên góc cân: mặt xOz giữ nguyên dạng", "Đúng"]] },
+        { t: "ĐÚNG/SAI", q: "Nhận định về CMCN:", isTF: true, rows: [["A. 1.0 dùng hơi nước", "Đúng"], ["B. 3.0 dùng điện năng", "Sai"], ["C. 4.0 dùng AI, IoT", "Đúng"], ["D. 2.0 cuối thế kỷ XIX", "Đúng"]] },
+        { t: "ĐÚNG/SAI", q: "Bản vẽ vật thể hình chữ H:", isTF: true, rows: [["A. Có 2 phương pháp chiếu", "Đúng"], ["B. Hướng nhìn rất quan trọng", "Đúng"], ["C. Đường bao vẽ nét mảnh", "Sai"], ["D. Hình chiếu bằng ở dưới", "Đúng"]] },
+        { t: "ĐÚNG/SAI", q: "Mặt cắt và hình cắt:", isTF: true, rows: [["A. Mặt cắt là tiết diện ngang", "Đúng"], ["B. Hình cắt bỏ phần phía sau", "Sai"], ["C. Nét gạch gạch là vật liệu", "Đúng"], ["D. Mặt cắt chập vẽ nét mảnh", "Sai"]] },
+        { t: "ĐÚNG/SAI", q: "Hình chiếu trục đo:", isTF: true, rows: [["A. Vuông góc đều p=q=r=1", "Đúng"], ["B. Xiên góc cân góc 120 độ", "Sai"], ["C. Tăng tính trực quan", "Đúng"], ["D. xOz giữ nguyên dạng", "Đúng"]] },
 
-        // 3 CÂU TỰ LUẬN
-        { t: "PHẦN III - CÂU 1", q: "Đánh giá Smartphone và Điện thoại cổ.", a: "Smartphone: Đa năng, AI, giá cao. Cổ: Nghe gọi, bền, giá rẻ.", e: "Tiêu chí: Cấu tạo, tính năng, thẩm mỹ, giá thành." },
-        { t: "PHẦN III - CÂU 2", q: "Tiêu chuẩn trình bày bản vẽ kĩ thuật?", a: "1. Khổ giấy, 2. Tỉ lệ, 3. Nét vẽ, 4. Chữ viết, 5. Ghi kích thước.", e: "Phải liệt kê đủ 5 tiêu chuẩn theo TCVN." },
-        { t: "PHẦN III - CÂU 3", q: "Vị trí hình chiếu đứng và bằng (PPCG1)?", a: "Đứng: Ở trên. Bằng: Ở ngay dưới hình chiếu đứng.", e: "Yêu cầu: Đường gióng giữa hai hình phải thẳng hàng." }
+        { t: "TỰ LUẬN", q: "Đánh giá Smartphone và Điện thoại cổ.", a: "Smartphone (1) ưu thế về AI, cảm ứng, đa năng; Điện thoại cổ (2) ưu thế về pin, độ bền, phím vật lý.", e: "Học sinh cần phân tích đủ: Cấu tạo, Tính năng, Thẩm mỹ, Giá thành." },
+        { t: "TỰ LUẬN", q: "Các tiêu chuẩn trình bày bản vẽ?", a: "Khổ giấy, Tỉ lệ, Nét vẽ, Chữ viết, Ghi kích thước.", e: "Đây là quy định bắt buộc theo tiêu chuẩn Việt Nam (TCVN)." },
+        { t: "TỰ LUẬN", q: "Nguyên tắc vẽ hình chiếu PPCG1?", a: "Hình chiếu Đứng ở trên, Hình chiếu Bằng ở dưới.", e: "Lưu ý: Hai hình chiếu phải đặt đúng vị trí tương đối và thẳng hàng gióng." }
     ];
 
     let current = 0;
-    function render() {
-        const item = data[current];
-        document.getElementById('slide-tag').innerText = item.t;
-        document.getElementById('page-info').innerText = `Câu ${current + 1} / ${data.length}`;
-        let html = `<h2>${item.isTF ? "Xét tính Đúng/Sai:" : item.q}</h2>`;
-        if (item.isTF) {
-            html += `<table><tr><th>Nhận định</th><th style="width:180px">Đáp án</th></tr>${item.rows.map(r => `<tr><td>${r[0]}</td><td class="st-${r[1]=='Đúng'?'true':'false'}">${r[1]}</td></tr>`).join('')}</table>`;
-        } else {
-            html += `<div id="ans-box" class="ans-box"><span class="correct-text">ĐÁP ÁN: ${item.a}</span><br><span style="font-size:1.8rem; color:#555; margin-top:15px; display:block;">💡 Giải thích: ${item.e}</span></div>`;
-        }
-        document.getElementById('slide-content').innerHTML = html;
+
+    function initSidebar() {
+        const nav = document.getElementById('sidebar-nav');
+        let currentSection = "";
+        data.forEach((item, i) => {
+            if(item.t !== currentSection) {
+                currentSection = item.t;
+                nav.innerHTML += `<li class="section-title">${currentSection}</li>`;
+            }
+            nav.innerHTML += `<li class="nav-item" id="nav-${i}" onclick="goTo(${i})"><i class="fas fa-file-alt"></i> Câu ${i+1}</li>`;
+        });
+        updateUI();
     }
-    function changeSlide(n) { current = (current + n + data.length) % data.length; render(); }
-    function showAnswer() { const box = document.getElementById('ans-box'); if(box) box.style.display = 'block'; }
-    document.addEventListener('keydown', (e) => { 
-        if (e.key === "ArrowRight") changeSlide(1); 
-        else if (e.key === "ArrowLeft") changeSlide(-1); 
-        else if (e.key === " ") { e.preventDefault(); showAnswer(); }
+
+    function updateUI() {
+        const item = data[current];
+        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+        document.getElementById(`nav-${current}`).classList.add('active');
+        document.getElementById('type-badge').innerText = `PHẦN: ${item.t}`;
+        document.getElementById('progress-text').innerText = `Câu ${current + 1} / ${data.length}`;
+        document.getElementById('q-text').innerText = item.q;
+        document.getElementById('answer-card').classList.remove('visible');
+        
+        const extra = document.getElementById('q-extra');
+        extra.innerHTML = "";
+        if(item.isTF) {
+            let table = `<table><tr><th>Nhận định</th><th>Đáp án</th></tr>`;
+            item.rows.forEach(r => {
+                table += `<tr><td>${r[0]}</td><td class="${r[1]=='Đúng'?'true-text':'false-text'}">${r[1]}</td></tr>`;
+            });
+            table += `</table>`;
+            extra.innerHTML = table;
+        }
+
+        document.getElementById('ans-val').innerText = item.a || "Đáp án phần Đúng/Sai hiển thị ở trên";
+        document.getElementById('exp-val').innerHTML = `<strong>Phân tích giáo khoa:</strong> ${item.e || ""}`;
+    }
+
+    function goTo(index) { current = index; updateUI(); }
+    function changeSlide(n) { current = (current + n + data.length) % data.length; updateUI(); }
+    function toggleAnswer() { document.getElementById('answer-card').classList.toggle('visible'); }
+
+    document.addEventListener('keydown', (e) => {
+        if(e.key === "ArrowRight") changeSlide(1);
+        if(e.key === "ArrowLeft") changeSlide(-1);
+        if(e.key === " ") { e.preventDefault(); toggleAnswer(); }
     });
-    render();
+
+    initSidebar();
 </script>
 </body>
 </html>
