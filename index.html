@@ -16,7 +16,7 @@
         .tag { background: var(--secondary); color: white; padding: 5px 20px; border-radius: 10px; font-size: 1.5rem; font-weight: bold; }
         .page-num { font-size: 1.5rem; color: #7f8c8d; font-weight: bold; }
 
-        h2 { color: var(--primary); font-size: 2.8rem; margin: 30px 0; line-height: 1.3; }
+        h2 { color: var(--primary); font-size: 2.8rem; margin: 25px 0; line-height: 1.3; }
 
         .content { flex-grow: 1; font-size: 2.2rem; color: #222; display: flex; flex-direction: column; justify-content: center; }
 
@@ -36,13 +36,15 @@
 
         .nav-btns { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; }
         button { 
-            padding: 20px 50px; font-size: 1.8rem; border: none; border-radius: 60px; 
+            padding: 15px 40px; font-size: 1.5rem; border: none; border-radius: 60px; 
             cursor: pointer; font-weight: bold; transition: 0.3s; box-shadow: 0 8px 20px rgba(0,0,0,0.2);
         }
         .btn-prev { background: #7f8c8d; color: white; }
         .btn-next { background: var(--secondary); color: white; }
         .btn-ans { background: #e67e22; color: white; }
         
+        .hint { font-size: 1rem; color: #95a5a6; text-align: center; margin-top: 10px; }
+
         @keyframes popIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
     </style>
 </head>
@@ -50,50 +52,50 @@
 
 <div class="slide-container">
     <div class="header-info">
-        <div id="slide-tag" class="tag">TRẮC NGHIỆM</div>
-        <div id="page-info" class="page-num">Slide 1 / 19</div>
+        <div id="slide-tag" class="tag">ĐANG TẢI...</div>
+        <div id="page-info" class="page-num">Slide 0 / 19</div>
     </div>
 
-    <div class="content" id="slide-content">
-        </div>
+    <div class="content" id="slide-content"></div>
 
     <div class="nav-btns">
-        <button class="btn-prev" onclick="changeSlide(-1)">⬅ TRƯỚC</button>
-        <button class="btn-ans" onclick="showAnswer()">XEM ĐÁP ÁN</button>
-        <button class="btn-next" onclick="changeSlide(1)">TIẾP THEO ➡</button>
+        <button class="btn-prev" onclick="changeSlide(-1)">⬅ TRƯỚC (Phím ←)</button>
+        <button class="btn-ans" onclick="showAnswer()">XEM ĐÁP ÁN (Phím Space)</button>
+        <button class="btn-next" onclick="changeSlide(1)">TIẾP THEO (Phím →) ➡</button>
     </div>
+    <div class="hint">Mẹo: Sử dụng phím mũi tên trên bàn phím để chuyển slide nhanh</div>
 </div>
 
 <script>
     const data = [
         // PHẦN I: 12 CÂU
-        { t: "TRẮC NGHIỆM - CÂU 1", q: "Đường gióng kích thước được vẽ bằng nét vẽ nào?", a: "A. Nét liền mảnh", e: "Phân biệt với đường bao thấy (nét đậm)." },
-        { t: "TRẮC NGHIỆM - CÂU 2", q: "Ngành biến điện năng thành cơ năng dựa trên cảm ứng điện từ?", a: "C. Công nghệ điện – cơ", e: "Ví dụ: Động cơ máy bơm, quạt điện." },
-        { t: "TRẮC NGHIỆM - CÂU 3", q: "Công nghệ là gì?", a: "A. Giải pháp, quy trình, bí quyết kĩ thuật...", e: "Biến đổi nguồn lực thành sản phẩm." },
-        { t: "TRẮC NGHIỆM - CÂU 4", q: "Ngành nghề nào thuộc lĩnh vực cơ khí?", a: "C. Cơ khí chế tạo", e: "Thiết kế và sản xuất máy móc." },
-        { t: "TRẮC NGHIỆM - CÂU 5", q: "Công nghệ bồi đắp vật liệu theo từng lớp?", a: "B. Công nghệ in 3D", e: "Sản xuất bồi đắp (Additive Manufacturing)." },
-        { t: "TRẮC NGHIỆM - CÂU 6", q: "Quan sát hình ảnh thiết bị in 3D. Đây là công nghệ nào?", a: "C. Công nghệ in 3D", e: "Đầu phun đang đắp vật liệu nhựa/kim loại." },
-        { t: "TRẮC NGHIỆM - CÂU 7", q: "Ví dụ về công nghệ điện quang?", a: "B. Đèn LED", e: "Biến điện năng thành ánh sáng." },
-        { t: "TRẮC NGHIỆM - CÂU 8", q: "CMCN 4.0 bắt đầu vào thời gian nào?", a: "D. Đầu thế kỷ XXI", e: "Kỷ nguyên của số hóa và trí tuệ nhân tạo." },
-        { t: "TRẮC NGHIỆM - CÂU 9", q: "Thành phần hệ thống kỹ thuật?", a: "B. Đầu vào, xử lý và đầu ra", e: "Cấu trúc 3 thành phần cơ bản." },
-        { t: "TRẮC NGHIỆM - CÂU 10", q: "Có bao nhiêu khổ giấy chính (TCVN)?", a: "D. 5", e: "Khổ A0 đến A4." },
-        { t: "TRẮC NGHIỆM - CÂU 11", q: "Robot thông minh thuộc cách mạng nào?", a: "C. Cách mạng 4.0", e: "Kết hợp AI và điều khiển tự động." },
-        { t: "TRẮC NGHIỆM - CÂU 12", q: "Công nghệ mô phỏng trí tuệ con người?", a: "B. Công nghệ AI", e: "Trí tuệ nhân tạo." },
+        { t: "TRẮC NGHIỆM - CÂU 1", q: "Theo tiêu chuẩn trình bày bản vẽ kĩ thuật, đường gióng kích thước được vẽ bằng nét vẽ nào?", a: "A. Nét liền mảnh", e: "Đường gióng và đường kích thước luôn dùng nét mảnh." },
+        { t: "TRẮC NGHIỆM - CÂU 2", q: "Ngành công nghệ nào biến đổi điện năng thành cơ năng dựa trên nguyên lý cảm ứng điện từ?", a: "C. Công nghệ điện – cơ", e: "Điện - cơ biến điện thành chuyển động (động cơ)." },
+        { t: "TRẮC NGHIỆM - CÂU 3", q: "Công nghệ là gì?", a: "A. Giải pháp, quy trình, bí quyết kĩ thuật... biến đổi nguồn lực thành sản phẩm", e: "Định nghĩa chuẩn theo SGK Công nghệ 10." },
+        { t: "TRẮC NGHIỆM - CÂU 4", q: "Ngành nghề nào thuộc lĩnh vực cơ khí?", a: "C. Cơ khí chế tạo", e: "Tập trung vào quy trình tạo ra máy móc." },
+        { t: "TRẮC NGHIỆM - CÂU 5", q: "Công nghệ dùng để tạo ra các mô hình 3D bằng cách bồi đắp vật liệu theo từng lớp?", a: "B. Công nghệ in 3D", e: "Phương pháp sản xuất cộng (Additive)." },
+        { t: "TRẮC NGHIỆM - CÂU 6", q: "Quan sát hình ảnh thiết bị trong đề. Thiết bị này thuộc công nghệ nào?", a: "C. Công nghệ in 3D", e: "Hình ảnh máy in đang bồi đắp vật thể 3D." },
+        { t: "TRẮC NGHIỆM - CÂU 7", q: "Đâu là một ví dụ về công nghệ điện quang?", a: "B. Đèn LED", e: "Điện quang biến điện năng thành ánh sáng." },
+        { t: "TRẮC NGHIỆM - CÂU 8", q: "Cách mạng công nghiệp lần thứ 4 (4.0) bắt đầu vào thời gian nào?", a: "D. Đầu thế kỷ XXI", e: "Kỷ nguyên số, AI và IoT." },
+        { t: "TRẮC NGHIỆM - CÂU 9", q: "Hệ thống kỹ thuật gồm các phần tử nào?", a: "B. Đầu vào, bộ phận xử lý và đầu ra", e: "Cấu trúc chức năng cơ bản của hệ thống." },
+        { t: "TRẮC NGHIỆM - CÂU 10", q: "Theo tiêu chuẩn TCVN, có bao nhiêu khổ giấy chính?", a: "D. 5", e: "Các khổ từ A0 đến A4." },
+        { t: "TRẮC NGHIỆM - CÂU 11", q: "Robot thông minh là sản phẩm của cuộc cách mạng nào?", a: "C. Cách mạng 4.0", e: "Sự kết hợp của cơ khí hiện đại và AI." },
+        { t: "TRẮC NGHIỆM - CÂU 12", q: "Công nghệ mô phỏng các hoạt động trí tuệ của con người là?", a: "B. Công nghệ Trí tuệ nhân tạo (AI)", e: "Mô phỏng khả năng học và giải quyết vấn đề." },
 
         // PHẦN II: 4 CÂU ĐÚNG/SAI
-        { t: "ĐÚNG/SAI - CÂU 1", q: "Các cuộc cách mạng công nghiệp:", isTF: true, 
-          rows: [["A. CM 1.0 dùng động cơ hơi nước", "Đúng"], ["B. CM 3.0 dựa trên điện năng và SX hàng loạt", "Sai"], ["C. CM 4.0 gắn liền với AI, Big Data", "Đúng"], ["D. CM 2.0 bắt đầu cuối thế kỷ XIX", "Đúng"]] },
-        { t: "ĐÚNG/SAI - CÂU 2", q: "Vật thể hình chữ H:", isTF: true, 
-          rows: [["A. Có 2 phương pháp chiếu (PPCG1, 3)", "Đúng"], ["B. Chọn hướng nhìn quyết định hình chiếu", "Đúng"], ["C. Đường bao thấy vẽ nét liền mảnh", "Sai"], ["D. Hình chiếu bằng ở dưới hình chiếu đứng", "Đúng"]] },
-        { t: "ĐÚNG/SAI - CÂU 3", q: "Mặt cắt và hình cắt:", isTF: true, 
-          rows: [["A. Mặt cắt là phần tiếp xúc mặt phẳng cắt", "Đúng"], ["B. Hình cắt bỏ các đường bao sau mặt cắt", "Sai"], ["C. Gạch gạch biểu thị vật liệu", "Đúng"], ["D. Mặt cắt rời vẽ bằng nét liền mảnh", "Đúng"]] },
-        { t: "ĐÚNG/SAI - CÂU 4", q: "Hình chiếu trục đo:", isTF: true, 
-          rows: [["A. Trục đo vuông góc đều có p=q=r=1", "Đúng"], ["B. Trục đo xiên góc cân có các góc 120 độ", "Sai"], ["C. Tăng tính trực quan cho bản vẽ", "Đúng"], ["D. Xiên góc cân: mặt xOz giữ nguyên hình dạng", "Đúng"]] },
+        { t: "ĐÚNG/SAI - CÂU 1", q: "Về các cuộc cách mạng công nghiệp:", isTF: true, 
+          rows: [["A. CMCN 1.0 cơ giới hóa bằng động cơ hơi nước", "Đúng"], ["B. CMCN 3.0 dựa trên điện năng và SX hàng loạt", "Sai"], ["C. CMCN 4.0 gắn liền với AI, IoT, Big Data", "Đúng"], ["D. CMCN 2.0 bắt đầu từ cuối thế kỷ XIX", "Đúng"]] },
+        { t: "ĐÚNG/SAI - CÂU 2", q: "Vật thể hình chữ H trong bản vẽ kỹ thuật:", isTF: true, 
+          rows: [["A. Có 2 phương pháp chiếu là PPCG1 và PPCG3", "Đúng"], ["B. Hướng nhìn quyết định vị trí các hình chiếu", "Đúng"], ["C. Đường bao thấy được vẽ bằng nét liền mảnh", "Sai"], ["D. Hình chiếu bằng nằm dưới hình chiếu đứng", "Đúng"]] },
+        { t: "ĐÚNG/SAI - CÂU 3", q: "Về mặt cắt và hình cắt:", isTF: true, 
+          rows: [["A. Mặt cắt biểu diễn tiết diện ngang vật thể", "Đúng"], ["B. Hình cắt bỏ qua các đường bao sau mặt cắt", "Sai"], ["C. Đường gạch gạch biểu thị phần vật liệu bị cắt", "Đúng"], ["D. Mặt cắt rời vẽ bằng nét liền mảnh", "Đúng"]] },
+        { t: "ĐÚNG/SAI - CÂU 4", q: "Về hình chiếu trục đo:", isTF: true, 
+          rows: [["A. Trục đo vuông góc đều có p = q = r = 1", "Đúng"], ["B. Trục đo xiên góc cân có các góc 120 độ", "Sai"], ["C. Tăng tính trực quan cho bản vẽ kỹ thuật", "Đúng"], ["D. Xiên góc cân: Mặt xOz luôn giữ nguyên hình dạng", "Đúng"]] },
 
         // PHẦN III: 3 CÂU TỰ LUẬN
-        { t: "TỰ LUẬN - CÂU 1", q: "Đánh giá Smartphone và Điện thoại cổ.", a: "Smartphone hiện đại (AI, cảm ứng, đa năng) >< Điện thoại cổ (bền, phím vật lý, nghe gọi).", e: "Tiêu chí: Cấu tạo, Tính năng, Thẩm mĩ, Giá thành." },
-        { t: "TỰ LUẬN - CÂU 2", q: "Liệt kê các tiêu chuẩn trình bày bản vẽ?", a: "1. Khổ giấy, 2. Tỉ lệ, 3. Nét vẽ, 4. Chữ viết, 5. Ghi kích thước.", e: "Phải liệt kê đủ 5 tiêu chuẩn theo TCVN." },
-        { t: "TỰ LUẬN - CÂU 3", q: "Vẽ 2 hình chiếu của vật thể (PPCG1)?", a: "Vị trí: Hình chiếu ĐỨNG ở trên, hình chiếu BẰNG ở ngay dưới.", e: "Lưu ý các đường gióng phải thẳng hàng." }
+        { t: "TỰ LUẬN - CÂU 1", q: "Đánh giá Smartphone và Điện thoại cổ.", a: "Smartphone (Hình 1): Hiện đại, đa năng, giá cao. ĐTDĐ cổ (Hình 2): Bền, phím vật lý, nghe gọi tốt, giá rẻ.", e: "Cần đánh giá đủ 4 tiêu chí: Cấu tạo, Tính năng, Thẩm mỹ, Giá thành." },
+        { t: "TỰ LUẬN - CÂU 2", q: "Hãy liệt kê các tiêu chuẩn trình bày bản vẽ kĩ thuật?", a: "1. Khổ giấy, 2. Tỉ lệ, 3. Nét vẽ, 4. Chữ viết, 5. Ghi kích thước.", e: "Đây là 5 tiêu chuẩn bắt buộc theo TCVN." },
+        { t: "TỰ LUẬN - CÂU 3", q: "Vẽ 2 hình chiếu (Đứng và Bằng) theo PPCG1.", a: "Hình chiếu đứng: Bên trên. Hình chiếu bằng: Ngay phía dưới hình chiếu đứng.", e: "Lưu ý: Các đường gióng giữa 2 hình chiếu phải thẳng hàng." }
     ];
 
     let current = 0;
@@ -103,11 +105,11 @@
         document.getElementById('slide-tag').innerText = item.t;
         document.getElementById('page-info').innerText = `Slide ${current + 1} / ${data.length}`;
         
-        let html = `<h2>${item.isTF ? "Xét tính Đúng/Sai của các nhận định:" : item.q}</h2>`;
+        let html = `<h2>${item.isTF ? "Xét tính Đúng/Sai của các nhận định sau:" : item.q}</h2>`;
         if (item.isTF) {
-            html += `<table><tr><th>Nhận định</th><th>Đáp án</th></tr>${item.rows.map(r => `<tr><td>${r[0]}</td><td class="st-${r[1]=='Đúng'?'true':'false'}">${r[1]}</td></tr>`).join('')}</table>`;
+            html += `<table><tr><th>Nhận định</th><th style="width:150px">Đáp án</th></tr>${item.rows.map(r => `<tr><td>${r[0]}</td><td class="st-${r[1]=='Đúng'?'true':'false'}">${r[1]}</td></tr>`).join('')}</table>`;
         } else {
-            html += `<div id="ans-box" class="ans-box"><span class="correct-text">ĐÁP ÁN: ${item.a}</span><br><span style="font-size:1.8rem; color:#555">💡 Giải thích: ${item.e}</span></div>`;
+            html += `<div id="ans-box" class="ans-box"><span class="correct-text">ĐÁP ÁN: ${item.a}</span><br><span style="font-size:1.8rem; color:#555; margin-top:15px; display:block;">💡 Giải thích: ${item.e}</span></div>`;
         }
         document.getElementById('slide-content').innerHTML = html;
     }
@@ -121,6 +123,18 @@
         const box = document.getElementById('ans-box');
         if(box) box.style.display = 'block';
     }
+
+    // LẮNG NGHE SỰ KIỆN BÀN PHÍM
+    document.addEventListener('keydown', (event) => {
+        if (event.key === "ArrowRight") {
+            changeSlide(1);
+        } else if (event.key === "ArrowLeft") {
+            changeSlide(-1);
+        } else if (event.key === " ") { // Phím Space để hiện đáp án
+            event.preventDefault(); // Tránh cuộn trang
+            showAnswer();
+        }
+    });
 
     render();
 </script>
