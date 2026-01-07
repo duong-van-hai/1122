@@ -2,213 +2,78 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ôn Tập Tiếng Anh Tổng Hợp</title>
+    <title>Sửa Bài Công Nghệ 10 - Mã đề 101</title>
     <style>
-        :root { --primary: #1a73e8; --success: #28a745; --danger: #dc3545; --bg: #f0f2f5; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: var(--bg); display: flex; justify-content: center; padding: 20px; margin: 0; }
-        .container { max-width: 850px; width: 100%; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        
-        h2 { text-align: center; color: var(--primary); border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 30px; }
-        h2:first-child { margin-top: 0; }
-
-        #timer { font-size: 22px; font-weight: bold; text-align: center; color: var(--danger); background: #ffebee; padding: 15px; border-radius: 10px; margin-bottom: 20px; position: sticky; top: 10px; z-index: 1000; border: 2px solid var(--danger); }
-
-        /* Style Phần Trắc Nghiệm */
-        .question-block { margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; }
-        .options label { display: block; padding: 8px; margin: 5px 0; background: #f8f9fa; border-radius: 5px; cursor: pointer; border: 1px solid #eee; }
-        .options label:hover { background: #e9ecef; }
-
-        /* Style Phần Nối Câu (Đã bỏ a, b, c) */
-        .quiz-area { display: flex; gap: 20px; margin-top: 20px; }
-        .column { flex: 1; display: flex; flex-direction: column; gap: 10px; }
-        .item { padding: 12px; background: #fff; border: 2px solid #dee2e6; border-radius: 8px; cursor: pointer; font-size: 15px; min-height: 45px; display: flex; align-items: center; transition: 0.2s; line-height: 1.4; }
-        .item.selected { border-color: var(--primary); background: #e8f0fe; font-weight: bold; transform: scale(1.02); }
-        .item.matched { background: #d4edda; border-color: var(--success); pointer-events: none; opacity: 0.7; border-style: dashed; }
-
-        /* Controls */
-        .controls { display: flex; gap: 15px; margin-top: 40px; position: sticky; bottom: 10px; background: white; padding: 15px; border-top: 2px solid #eee; }
-        button { flex: 1; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 18px; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        #submit-btn { background: var(--success); color: white; }
-        #reset-btn { background: #6c757d; color: white; }
-        button:hover { opacity: 0.9; transform: translateY(-2px); }
-
-        #result-final { margin-top: 20px; padding: 20px; border-radius: 10px; text-align: center; font-size: 22px; display: none; background: #fff3cd; border: 2px solid #ffeeba; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; background: #f4f7f6; color: #333; padding: 20px; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        .question-block { margin-bottom: 25px; padding: 15px; border-left: 5px solid #3498db; background: #ebf5fb; }
+        .answer { display: none; margin-top: 10px; padding: 10px; background: #d4efdf; border-radius: 5px; color: #1d8348; font-weight: bold; }
+        .explanation { display: none; margin-top: 5px; font-style: italic; color: #555; }
+        button { background: #3498db; color: white; border: none; padding: 8px 15px; cursor: pointer; border-radius: 4px; transition: 0.3s; }
+        button:hover { background: #2980b9; }
+        .visual-aid { margin-top: 10px; border: 1px dashed #bbb; padding: 10px; text-align: center; background: #fff; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div id="timer">Thời gian còn lại: 05:00</div>
+    <h1>💡 Hướng dẫn sửa bài: Công nghệ Công nghiệp 10</h1>
+    <p><strong>Mã đề: 101</strong> | Học kỳ 1 - 2025-2026 [cite: 4, 9]</p>
 
-    <h2>2. Circle the correct answer</h2>
-    <div id="mcq-container"></div>
-
-    <h2>3. Matching Quiz</h2>
-    <p style="text-align: center; font-style: italic; color: #666;">(Chọn một câu hỏi bên trái, sau đó chọn câu trả lời tương ứng bên phải)</p>
-    <div class="quiz-area">
-        <div class="column" id="matching-questions"></div>
-        <div class="column" id="matching-answers"></div>
+    <div class="question-block">
+        <p><strong>Câu 1:</strong> Đường gióng kích thước được vẽ bằng nét vẽ nào? [cite: 11]</p>
+        <button onclick="toggle(1)">Xem đáp án & Giải thích</button>
+        <div id="ans1" class="answer">Đáp án: A. Nét liền mảnh [cite: 12]</div>
+        <div id="exp1" class="explanation">
+            <strong>Chuyên gia giải thích:</strong> Theo tiêu chuẩn trình bày bản vẽ, nét liền đậm dùng cho đường bao thấy, còn nét liền mảnh dùng cho đường gióng và đường kích thước để tránh làm rối bản vẽ.
+        </div>
     </div>
 
-    <div id="result-final"></div>
-
-    <div class="controls">
-        <button id="submit-btn" onclick="checkAll()">Nộp Bài & Chấm Điểm</button>
-        <button id="reset-btn" onclick="initApp()">Làm Lại Từ Đầu</button>
+    <div class="question-block">
+        <p><strong>Câu 6:</strong> Quan sát hình ảnh thiết bị và cho biết đây là công nghệ nào? [cite: 34]</p>
+        <div class="visual-aid"><em>(Hình ảnh máy in bồi đắp vật thể theo lớp)</em></div>
+        <button onclick="toggle(6)">Xem đáp án & Giải thích</button>
+        <div id="ans6" class="answer">Đáp án: C. Công nghệ in 3D [cite: 37]</div>
+        <div id="exp6" class="explanation">
+            <strong>Chuyên gia giải thích:</strong> Hình ảnh mô tả quy trình sản xuất bồi đắp (additive manufacturing), đặc trưng của máy in 3D hiện đại.
+        </div>
     </div>
+
+    <div class="question-block">
+        <p><strong>Câu 12:</strong> Công nghệ mô phỏng các hoạt động trí tuệ của con người là gì? [cite: 74]</p>
+        <button onclick="toggle(12)">Xem đáp án & Giải thích</button>
+        <div id="ans12" class="answer">Đáp án: B. Công nghệ trí tuệ nhân tạo (AI) [cite: 79]</div>
+        <div id="exp12" class="explanation">
+            <strong>Chuyên gia giải thích:</strong> Đây là định nghĩa cốt lõi của AI - khả năng học tập và tư duy của máy tính để giải quyết các vấn đề như con người.
+        </div>
+    </div>
+
+    <div class="question-block" style="border-left-color: #e67e22; background: #fef5e7;">
+        <p><strong>Phần Tự Luận - Câu 3:</strong> Vẽ 2 hình chiếu (đứng và bằng) của vật thể theo PPCG1. </p>
+        <button onclick="toggle('tl3')">Xem sơ đồ hướng dẫn vẽ</button>
+        <div id="anstl3" class="answer">Hướng dẫn:</div>
+        <div id="exptl3" class="explanation">
+            1. <strong>Hình chiếu đứng:</strong> Nhìn từ trước, vẽ hình dạng chữ L nằm ngang có khuyết rãnh[cite: 135].<br>
+            2. <strong>Hình chiếu bằng:</strong> Nhìn từ trên, đặt phía dưới hình chiếu đứng, thể hiện bề mặt nằm ngang[cite: 133].
+        </div>
+    </div>
+
 </div>
 
 <script>
-    // DỮ LIỆU GỐC
-    const mcqData = [
-        { q: "Happy ____, Mary!", a: ["May", "birthday", "April", "January"], correct: "birthday" },
-        { q: "What do you want to ____? (I want some chicken)", a: ["eat", "drink", "party", "jam"], correct: "eat" },
-        { q: "My birthday is ____ February.", a: ["on", "in", "at", "under"], correct: "in" },
-        { q: "What do you ____ to drink? (I want some water)", a: ["month", "party", "do", "want"], correct: "want" },
-        { q: "Where's the jam? - It's ____ the table.", a: ["some", "with", "on", "in"], correct: "on" },
-        { q: "Is your ____ day in July?", a: ["sports", "May", "October", "September"], correct: "sports" },
-        { q: "Her birthday is ____ December.", a: ["on", "in", "under", "with"], correct: "in" },
-        { q: "We play sports in the school ____.", a: ["gym", "month", "birthday", "class"], correct: "gym" },
-        { q: "When's your sports day? - It's in ____.", a: ["today", "August", "playground", "teacher"], correct: "August" }
-    ];
-
-    const matchingData = [
-        { q: "Where are you from?", a: "I am from Japan." },
-        { q: "What do you do on Sunday?", a: "I do homework." },
-        { q: "When’s your birthday?", a: "It’s in May." },
-        { q: "Can she roller skate?", a: "No, she can’t but she can swim." },
-        { q: "What’s his favourite subject?", a: "His favourite subject is English." },
-        { q: "What day is it today?", a: "It’s Monday." },
-        { q: "What do you want to drink?", a: "I want some juice" },
-        { q: "Why do you like Art?", a: "Because I want to be a painter." }
-    ];
-
-    let timer;
-    let timeLeft = 300;
-    let selectedQElement = null;
-    let currentMatches = {}; 
-
-    function shuffle(array) {
-        return array.sort(() => Math.random() - 0.5);
+    function toggle(id) {
+        var ans = document.getElementById('ans' + id);
+        var exp = document.getElementById('exp' + id);
+        if (ans.style.display === 'block') {
+            ans.style.display = 'none';
+            exp.style.display = 'none';
+        } else {
+            ans.style.display = 'block';
+            exp.style.display = 'block';
+        }
     }
-
-    // Hàm xóa tiền tố "1.", "a.", "h."
-    function cleanText(text) {
-        return text.replace(/^[a-z0-9]\.\s+/i, "");
-    }
-
-    function initApp() {
-        clearInterval(timer);
-        timeLeft = 300;
-        currentMatches = {};
-        selectedQElement = null;
-        document.getElementById('result-final').style.display = 'none';
-        
-        // 1. Trắc nghiệm
-        const mcqContainer = document.getElementById('mcq-container');
-        mcqContainer.innerHTML = '';
-        const shuffledMCQ = shuffle([...mcqData]);
-        shuffledMCQ.forEach((item, idx) => {
-            const opts = shuffle([...item.a]);
-            let html = `<div class="question-block" data-ans="${item.correct}">
-                <div style="font-weight:bold; margin-bottom:10px;">${idx+1}. ${item.q}</div>
-                <div class="options">`;
-            opts.forEach(o => {
-                html += `<label><input type="radio" name="mcq${idx}" value="${o}"> ${o}</label>`;
-            });
-            html += `</div></div>`;
-            mcqContainer.innerHTML += html;
-        });
-
-        // 2. Nối câu (Matching)
-        const qCol = document.getElementById('matching-questions');
-        const aCol = document.getElementById('matching-answers');
-        qCol.innerHTML = ''; aCol.innerHTML = '';
-        
-        const questionsToDisplay = shuffle([...matchingData]);
-        const answersToDisplay = shuffle([...matchingData]);
-
-        questionsToDisplay.forEach((item) => {
-            const div = document.createElement('div');
-            div.className = 'item';
-            div.innerText = cleanText(item.q);
-            div.onclick = () => {
-                if(div.classList.contains('matched')) return;
-                document.querySelectorAll('#matching-questions .item').forEach(el => el.classList.remove('selected'));
-                div.classList.add('selected');
-                selectedQElement = { el: div, originalQ: item.q, correctA: item.a };
-            };
-            qCol.appendChild(div);
-        });
-
-        answersToDisplay.forEach((item) => {
-            const div = document.createElement('div');
-            div.className = 'item';
-            div.innerText = cleanText(item.a);
-            div.onclick = () => {
-                if(!selectedQElement || div.classList.contains('matched')) return;
-                
-                // Lưu cặp đã nối
-                currentMatches[selectedQElement.originalQ] = item.a;
-                
-                // Đánh dấu đã nối thành công trên giao diện
-                selectedQElement.el.classList.add('matched');
-                div.classList.add('matched');
-                
-                selectedQElement.el.classList.remove('selected');
-                selectedQElement = null;
-            };
-            aCol.appendChild(div);
-        });
-
-        startTimer();
-    }
-
-    function startTimer() {
-        timer = setInterval(() => {
-            timeLeft--;
-            const m = Math.floor(timeLeft/60);
-            const s = timeLeft%60;
-            document.getElementById('timer').innerText = `Thời gian còn lại: ${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`;
-            if(timeLeft <= 0) { clearInterval(timer); checkAll(true); }
-        }, 1000);
-    }
-
-    function checkAll(isAuto = false) {
-        clearInterval(timer);
-        let mcqScore = 0;
-        let matchScore = 0;
-
-        // Chấm MCQ
-        document.querySelectorAll('.question-block').forEach((block, idx) => {
-            const correct = block.getAttribute('data-ans');
-            const selected = block.querySelector(`input[name="mcq${idx}"]:checked`);
-            if(selected && selected.value === correct) mcqScore++;
-        });
-
-        // Chấm Matching
-        matchingData.forEach((item) => {
-            if(currentMatches[item.q] === item.a) {
-                matchScore++;
-            }
-        });
-
-        const total = mcqData.length + matchingData.length;
-        const finalScore = mcqScore + matchScore;
-
-        const resDiv = document.getElementById('result-final');
-        resDiv.style.display = 'block';
-        resDiv.innerHTML = `
-            ${isAuto ? "<h3 style='color:red'>HẾT GIỜ!</h3>" : "<h3>KẾT QUẢ</h3>"}
-            <strong>Tổng điểm: ${finalScore} / ${total}</strong><br>
-            <p>Trắc nghiệm: ${mcqScore}/${mcqData.length} | Nối câu: ${matchScore}/${matchingData.length}</p>
-            <button onclick="location.reload()" style="background:#1a73e8; color:white; font-size:14px; padding:8px 15px; margin-top:10px;">Chơi lại màn mới</button>
-        `;
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    initApp();
 </script>
+
 </body>
 </html>
