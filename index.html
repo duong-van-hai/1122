@@ -2,86 +2,93 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Slide Sửa Bài Công Nghệ 10 - Mã 101</title>
     <style>
-        :root { --primary: #2c3e50; --secondary: #3498db; --success: #27ae60; --bg: #ecf0f1; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .slide-container { width: 85%; max-width: 900px; height: 600px; background: white; border-radius: 20px; shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; padding: 40px; display: flex; flex-direction: column; }
-        .progress-bar { position: absolute; top: 0; left: 0; height: 8px; background: var(--secondary); transition: 0.3s; border-radius: 20px 20px 0 0; }
-        .slide { display: none; animation: fadeIn 0.5s; }
-        .active { display: block; }
-        h2 { color: var(--primary); font-size: 1.8rem; border-bottom: 2px solid #eee; padding-bottom: 10px; }
-        .content { font-size: 1.3rem; margin: 30px 0; min-height: 200px; }
-        .ans-box { background: #e8f8f5; padding: 20px; border-radius: 10px; border-left: 10px solid var(--success); margin-top: 20px; display: none; }
-        .nav-btns { margin-top: auto; display: flex; justify-content: space-between; }
-        button { padding: 12px 25px; border: none; border-radius: 30px; cursor: pointer; font-size: 1rem; transition: 0.3s; }
-        .btn-prev { background: #bdc3c7; color: white; }
+        :root { --primary: #2c3e50; --secondary: #3498db; --success: #27ae60; --danger: #e74c3c; --bg: #f8f9fa; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
+        .slide-container { width: 90%; max-width: 950px; height: 650px; background: white; border-radius: 15px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); position: relative; padding: 40px; display: flex; flex-direction: column; }
+        .progress-bar { position: absolute; top: 0; left: 0; height: 6px; background: var(--secondary); transition: 0.4s; border-radius: 15px 15px 0 0; }
+        .slide { display: none; animation: slideIn 0.4s ease-out; }
+        .slide.active { display: flex; flex-direction: column; height: 100%; }
+        h3 { color: var(--secondary); margin: 0; text-transform: uppercase; font-size: 1rem; }
+        h2 { color: var(--primary); font-size: 1.6rem; margin: 15px 0; min-height: 80px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .content { flex-grow: 1; font-size: 1.2rem; color: #444; overflow-y: auto; }
+        .ans-box { background: #f0fff4; border: 2px solid var(--success); padding: 20px; border-radius: 10px; margin-top: 15px; display: none; }
+        .nav-btns { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; }
+        button { padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .btn-prev { background: #95a5a6; color: white; }
         .btn-next { background: var(--secondary); color: white; }
-        .btn-ans { background: var(--primary); color: white; margin-bottom: 10px; }
-        button:hover { opacity: 0.8; transform: translateY(-2px); }
-        .tag { background: var(--accent); color: #e67e22; font-weight: bold; text-transform: uppercase; font-size: 0.9rem; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
-        table { width: 100%; border-collapse: collapse; font-size: 1.1rem; }
-        td, th { border: 1px solid #ddd; padding: 10px; text-align: center; }
+        .btn-ans { background: var(--primary); color: white; }
+        button:hover { opacity: 0.9; transform: scale(1.02); }
+        table { width: 100%; border-collapse: collapse; background: white; }
+        th, td { border: 1px solid #dee2e6; padding: 12px; text-align: left; }
+        th { background: #f8f9fa; color: var(--primary); }
+        .status-true { color: var(--success); font-weight: bold; }
+        .status-false { color: var(--danger); font-weight: bold; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
 <div class="slide-container">
     <div id="progress" class="progress-bar" style="width: 0%"></div>
-    
-    <div id="slides-wrapper">
-        </div>
+    <div id="slides-wrapper" style="height: 100%;"></div>
 
     <div class="nav-btns">
-        <button class="btn-prev" onclick="changeSlide(-1)">⬅ Câu trước</button>
-        <button class="btn-ans" onclick="showAnswer()">Xem đáp án</button>
-        <button class="btn-next" onclick="changeSlide(1)">Câu tiếp theo ➡</button>
+        <button class="btn-prev" onclick="changeSlide(-1)">⬅ TRƯỚC</button>
+        <div style="font-weight: bold; color: #7f8c8d;" id="page-info"></div>
+        <button class="btn-ans" onclick="showAnswer()">XEM ĐÁP ÁN</button>
+        <button class="btn-next" onclick="changeSlide(1)">TIẾP THEO ➡</button>
     </div>
 </div>
 
 <script>
     const data = [
-        // PHẦN I
-        { type: "TRẮC NGHIỆM 1/12", q: "Câu 1: Đường gióng kích thước được vẽ bằng nét vẽ nào?", a: "ĐÁP ÁN: A. Nét liền mảnh", e: "Ghi nhớ: Nét đậm dùng cho đường bao thấy, nét mảnh dùng cho kích thước." },
-        { type: "TRẮC NGHIỆM 2/12", q: "Câu 2: Ngành biến điện năng thành cơ năng dựa trên cảm ứng điện từ?", a: "ĐÁP ÁN: C. Công nghệ điện – cơ", e: "Ứng dụng trong các loại động cơ điện, máy bơm, quạt điện." },
-        { type: "TRẮC NGHIỆM 3/12", q: "Câu 3: Định nghĩa về Công nghệ?", a: "ĐÁP ÁN: A. Giải pháp, quy trình, bí quyết kĩ thuật...", e: "Công nghệ là cách thức con người tác động vào nguồn lực để tạo ra sản phẩm." },
-        { type: "TRẮC NGHIỆM 4/12", q: "Câu 4: Ngành nghề thuộc lĩnh vực cơ khí?", a: "ĐÁP ÁN: C. Cơ khí chế tạo", e: "Gồm các công việc thiết kế, gia công, lắp ráp máy móc." },
-        { type: "TRẮC NGHIỆM 5/12", q: "Câu 5: Công nghệ tạo mô hình 3D bằng cách bồi đắp vật liệu?", a: "ĐÁP ÁN: B. Công nghệ in 3D", e: "Khác với phương pháp cắt gọt truyền thống, in 3D đắp dần từng lớp." },
-        { type: "TRẮC NGHIỆM 6/12", q: "Câu 6: Quan sát hình ảnh thiết bị trên đề bài. Đây là gì?", a: "ĐÁP ÁN: C. Công nghệ in 3D", e: "Dấu hiệu nhận biết: Đầu phun vật liệu đang di chuyển tạo hình khối." },
-        { type: "TRẮC NGHIỆM 7/12", q: "Câu 7: Ví dụ về công nghệ điện quang?", a: "ĐÁP ÁN: B. Đèn LED", e: "Biến điện năng trực tiếp thành quang năng." },
-        { type: "TRẮC NGHIỆM 8/12", q: "Câu 8: Cách mạng công nghiệp 4.0 bắt đầu khi nào?", a: "ĐÁP ÁN: D. Đầu thế kỷ XXI", e: "Gắn liền với sự phát triển của Internet vạn vật (IoT)." },
-        { type: "TRẮC NGHIỆM 9/12", q: "Câu 9: Các thành phần của hệ thống kỹ thuật?", a: "ĐÁP ÁN: B. Đầu vào, bộ phận xử lý, đầu ra", e: "Bất kỳ hệ thống nào cũng cần có đầu vào để xử lý thành kết quả." },
-        { type: "TRẮC NGHIỆM 10/12", q: "Câu 10: Số lượng khổ giấy chính theo TCVN?", a: "ĐÁP ÁN: D. 5 khổ giấy", e: "A0, A1, A2, A3, A4 (Khổ A0 là lớn nhất)." },
-        { type: "TRẮC NGHIỆM 11/12", q: "Câu 11: Robot thông minh thuộc cuộc cách mạng nào?", a: "ĐÁP ÁN: C. Cách mạng 4.0", e: "Kết hợp giữa cơ khí chính xác và trí tuệ nhân tạo." },
-        { type: "TRẮC NGHIỆM 12/12", q: "Câu 12: Công nghệ mô phỏng trí tuệ con người?", a: "ĐÁP ÁN: B. Công nghệ AI", e: "Viết tắt của Artificial Intelligence." },
+        // PHẦN I: 12 CÂU TRẮC NGHIỆM
+        { type: "Phần I - Câu 1", q: "Đường gióng kích thước được vẽ bằng nét vẽ nào?", a: "A. Nét liền mảnh", e: "Theo TCVN, đường gióng và đường kích thước dùng nét liền mảnh." },
+        { type: "Phần I - Câu 2", q: "Ngành công nghệ biến đổi điện năng thành cơ năng dựa trên cảm ứng điện từ?", a: "C. Công nghệ điện – cơ", e: "Điển hình là động cơ điện." },
+        { type: "Phần I - Câu 3", q: "Công nghệ là gì?", a: "A. Giải pháp, quy trình, bí quyết kĩ thuật...", e: "Là cách con người biến đổi nguồn lực thành sản phẩm." },
+        { type: "Phần I - Câu 4", q: "Ngành nghề nào thuộc lĩnh vực cơ khí?", a: "C. Cơ khí chế tạo", e: "Liên quan đến thiết kế, chế tạo máy móc." },
+        { type: "Phần I - Câu 5", q: "Công nghệ tạo mô hình 3D bằng cách bồi đắp vật liệu?", a: "B. Công nghệ in 3D", e: "Đặc trưng bởi việc in từng lớp vật liệu." },
+        { type: "Phần I - Câu 6", q: "Quan sát hình ảnh thiết bị in 3D trong đề. Đây là công nghệ nào?", a: "C. Công nghệ in 3D", e: "Dấu hiệu: Đầu phun đang tạo lớp vật thể." },
+        { type: "Phần I - Câu 7", q: "Ví dụ về công nghệ điện quang?", a: "B. Đèn LED", e: "Sử dụng điện năng để phát sáng." },
+        { type: "Phần I - Câu 8", q: "Cách mạng công nghiệp 4.0 bắt đầu vào thời gian nào?", a: "D. Đầu thế kỷ XXI", e: "Đặc trưng bởi kết nối vạn vật (IoT) và AI." },
+        { type: "Phần I - Câu 9", q: "Hệ thống kỹ thuật cơ bản gồm?", a: "B. Đầu vào, bộ phận xử lý và đầu ra", e: "Cấu trúc phổ biến của mọi hệ thống." },
+        { type: "Phần I - Câu 10", q: "Có bao nhiêu khổ giấy chính theo TCVN?", a: "D. 5", e: "A0, A1, A2, A3, A4." },
+        { type: "Phần I - Câu 11", q: "Robot thông minh là sản phẩm của cuộc cách mạng nào?", a: "C. Cách mạng 4.0", e: "Tích hợp trí tuệ nhân tạo (AI)." },
+        { type: "Phần I - Câu 12", q: "Công nghệ mô phỏng trí tuệ con người?", a: "B. Công nghệ Trí tuệ nhân tạo (AI)", e: "Giúp máy móc có khả năng học tập, tư duy." },
 
-        // PHẦN II (Mẫu 1 câu điển hình cho phần Đúng/Sai)
-        { type: "ĐÚNG/SAI 1/4", q: "Câu 2: Nhận định về vẽ kỹ thuật vật thể hình chữ H", isTable: true, 
-          rows: [["A. Có 2 phương pháp chiếu góc là PPCG1 và PPCG3", "Đúng"], ["B. Chọn hướng nhìn quyết định hình chiếu", "Đúng"], ["C. Đường bao vẽ bằng nét mảnh", "Sai"], ["D. Hình chiếu bằng đặt dưới hình chiếu đứng", "Đúng"]] },
+        // PHẦN II: 4 CÂU ĐÚNG/SAI
+        { type: "Phần II - Câu 1", q: "Các cuộc cách mạng công nghiệp", isTF: true, 
+          rows: [["A. Cách mạng 1.0 cơ giới hóa bằng hơi nước", "Đúng"], ["B. Cách mạng 3.0 dựa trên điện năng và SX hàng loạt", "Sai (Đó là 2.0)"], ["C. Cách mạng 4.0 đặc trưng bởi AI và Big Data", "Đúng"], ["D. Cách mạng 2.0 bắt đầu từ cuối thế kỷ XIX", "Đúng"]] },
+        { type: "Phần II - Câu 2", q: "Bản vẽ vật thể hình chữ H", isTF: true, 
+          rows: [["A. Có 2 phương pháp chiếu góc chính là PPCG1 và PPCG3", "Đúng"], ["B. Việc chọn hướng nhìn quyết định các hình chiếu", "Đúng"], ["C. Đường bao thấy vẽ bằng nét mảnh", "Sai (Nét đậm)"], ["D. Hình chiếu đứng thể hiện mặt chính của vật thể", "Đúng"]] },
+        { type: "Phần II - Câu 3", q: "Mặt cắt và hình cắt", isTF: true, 
+          rows: [["A. Mặt cắt là hình biểu diễn tiết diện ngang của vật thể", "Đúng"], ["B. Hình cắt không bao gồm các đường bao sau mặt cắt", "Sai"], ["C. Đường gạch gạch biểu thị phần vật liệu bị cắt qua", "Đúng"], ["D. Mặt cắt chập vẽ bằng nét liền mảnh", "Sai (Nét đậm/mảnh tùy vị trí)"]] },
+        { type: "Phần II - Câu 4", q: "Hình chiếu trục đo", isTF: true, 
+          rows: [["A. Hệ số biến dạng p=q=r=1 trong trục đo vuông góc đều", "Đúng"], ["B. Trục đo xiên góc cân có góc 120 độ", "Sai (135 và 90)"], ["C. Nó dùng để bổ sung tính trực quan cho bản vẽ", "Đúng"], ["D. Hình tròn trong xiên góc cân có thể giữ nguyên dạng", "Đúng"]] },
 
-        // PHẦN III
-        { type: "TỰ LUẬN 1/3", q: "So sánh Galaxy S25 và điện thoại cổ?", a: "Gợi ý: Smartphone vượt trội về tính năng AI và thẩm mĩ, nhưng điện thoại cổ có độ bền pin và phím bấm vật lý đặc trưng.", e: "" },
-        { type: "TỰ LUẬN 3/3", q: "Quy tắc vẽ 2 hình chiếu (Đứng và Bằng)?", a: "Vẽ theo PPCG1: Hình chiếu Đứng ở trên, hình chiếu Bằng ở dưới, các đường gióng phải thẳng hàng.", e: "" }
+        // PHẦN III: 3 CÂU TỰ LUẬN
+        { type: "Phần III - Tự luận 1", q: "Đánh giá Smartphone và Điện thoại cổ.", a: "Smartphone (Hình 1): Cấu tạo mỏng, màn cảm ứng, AI, đa năng, giá cao. Điện thoại cổ (Hình 2): Phím vật lý, nghe gọi là chính, bền, giá rẻ.", e: "" },
+        { type: "Phần III - Tự luận 2", q: "Liệt kê các tiêu chuẩn trình bày bản vẽ?", a: "1. Khổ giấy; 2. Tỉ lệ; 3. Nét vẽ; 4. Chữ viết; 5. Ghi kích thước.", e: "" },
+        { type: "Phần III - Tự luận 3", q: "Vẽ 2 hình chiếu của vật thể theo PPCG 1.", a: "Hình chiếu đứng: Bên trên. Hình chiếu bằng: Ngay phía dưới hình chiếu đứng.", e: "" }
     ];
 
     let currentSlide = 0;
     const wrapper = document.getElementById('slides-wrapper');
 
-    function initSlides() {
+    function init() {
         data.forEach((item, i) => {
-            let content = item.isTable ? 
-                `<table><tr><th>Nội dung</th><th>Đáp án</th></tr>${item.rows.map(r => `<tr><td>${r[0]}</td><td><b>${r[1]}</b></td></tr>`).join('')}</table>` : 
-                `<p>${item.q}</p><div id="ans-${i}" class="ans-box"><strong>${item.a}</strong><br><small>${item.e}</small></div>`;
-            
-            wrapper.innerHTML += `
-                <div class="slide ${i === 0 ? 'active' : ''}" id="slide-${i}">
-                    <span style="color:#e67e22; font-weight:bold">${item.type}</span>
-                    <h2>Nội dung câu hỏi</h2>
-                    <div class="content">${content}</div>
-                </div>`;
+            let innerContent = "";
+            if (item.isTF) {
+                innerContent = `<table><tr><th>Nhận định</th><th>Đáp án</th></tr>${item.rows.map(r => `<tr><td>${r[0]}</td><td class="status-${r[1]=='Đúng'?'true':'false'}">${r[1]}</td></tr>`).join('')}</table>`;
+            } else {
+                innerContent = `<p>${item.q}</p><div id="ans-${i}" class="ans-box"><strong>ĐÁP ÁN:</strong> ${item.a}<br><small><i>${item.e || ""}</i></small></div>`;
+            }
+            wrapper.innerHTML += `<div class="slide ${i===0?'active':''}" id="s-${i}"><h3>${item.type}</h3><h2>${item.isTF ? "Xét tính Đúng/Sai của các nhận định:" : "Câu hỏi:"}</h2><div class="content">${innerContent}</div></div>`;
         });
-        updateProgress();
+        updateUI();
     }
 
     function changeSlide(n) {
@@ -89,21 +96,20 @@
         slides[currentSlide].classList.remove('active');
         currentSlide = (currentSlide + n + slides.length) % slides.length;
         slides[currentSlide].classList.add('active');
-        updateProgress();
+        updateUI();
     }
 
     function showAnswer() {
-        const currentAns = document.querySelector('.active .ans-box');
-        if(currentAns) currentAns.style.display = 'block';
+        const ans = document.querySelector('.active .ans-box');
+        if(ans) ans.style.display = 'block';
     }
 
-    function updateProgress() {
-        const percent = ((currentSlide + 1) / data.length) * 100;
-        document.getElementById('progress').style.width = percent + '%';
+    function updateUI() {
+        document.getElementById('progress').style.width = ((currentSlide + 1) / data.length * 100) + '%';
+        document.getElementById('page-info').innerText = `Câu ${currentSlide + 1} / ${data.length}`;
     }
 
-    initSlides();
+    init();
 </script>
-
 </body>
 </html>
