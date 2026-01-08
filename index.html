@@ -3,281 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ thống Hướng dẫn Sửa bài Công nghệ 10</title>
+    <title>Hệ thống Giáo trình Công nghệ 10</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --sidebar-width: 280px;
-            --primary-color: #2563eb;
-            --bg-body: #f1f5f9;
-            --text-main: #1e293b;
+            --primary: #2563eb;
+            --secondary: #64748b;
             --success: #059669;
-            --accent: #f59e0b;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg: #f8fafc;
         }
 
-        body {
-            font-family: 'Inter', 'Segoe UI', sans-serif;
-            background-color: var(--bg-body);
-            color: var(--text-main);
-            margin: 0;
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; display: flex; height: 100vh; }
 
-        /* Sidebar Navigation */
-        .sidebar {
-            width: var(--sidebar-width);
-            background: #1e293b;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            transition: all 0.3s;
-        }
+        /* Sidebar */
+        .sidebar { width: 300px; background: #1e293b; color: white; display: flex; flex-direction: column; }
+        .sidebar-header { padding: 25px; background: #0f172a; border-bottom: 1px solid #334155; }
+        .nav-list { flex: 1; overflow-y: auto; padding: 15px; list-style: none; }
+        .nav-item { padding: 12px; margin-bottom: 8px; border-radius: 8px; cursor: pointer; transition: 0.3s; font-size: 0.9rem; color: #cbd5e1; display: flex; align-items: center; }
+        .nav-item:hover { background: #334155; }
+        .nav-item.active { background: var(--primary); color: white; }
 
-        .sidebar-header {
-            padding: 20px;
-            background: #0f172a;
-            text-align: center;
-        }
+        /* Main Content */
+        .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; padding: 20px; }
+        .content-card { background: white; border-radius: 15px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); flex: 1; display: flex; flex-direction: column; position: relative; }
+        
+        /* Progress Bar */
+        .progress-container { height: 6px; background: #e2e8f0; width: 100%; border-radius: 3px; margin-bottom: 20px; }
+        #progress-bar { height: 100%; background: var(--primary); width: 0%; transition: 0.5s; border-radius: 3px; }
 
-        .sidebar-header h3 { margin: 0; font-size: 1.2rem; color: #38bdf8; }
+        .question-area { flex: 1; padding: 40px; overflow-y: auto; }
+        .q-tag { display: inline-block; padding: 4px 12px; border-radius: 20px; background: #dbeafe; color: var(--primary); font-size: 0.8rem; font-weight: bold; margin-bottom: 15px; }
+        .q-text { font-size: 1.5rem; color: #1e293b; font-weight: 600; margin-bottom: 20px; line-height: 1.4; }
+        
+        .q-image { max-width: 100%; max-height: 300px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #e2e8f0; display: none; }
+        .q-image.show { display: block; }
 
-        .nav-list {
-            flex: 1;
-            overflow-y: auto;
-            padding: 10px;
-            list-style: none;
-            margin: 0;
-        }
+        /* Options */
+        .options-grid { display: grid; gap: 10px; margin-top: 20px; }
+        .option-btn { padding: 15px; border: 2px solid #e2e8f0; border-radius: 10px; cursor: pointer; transition: 0.2s; background: white; text-align: left; }
+        .option-btn:hover { border-color: var(--primary); background: #f0f7ff; }
 
-        .nav-item {
-            padding: 12px 15px;
-            margin-bottom: 5px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            font-size: 0.95rem;
-            color: #cbd5e1;
-        }
-
-        .nav-item:hover { background: #334155; color: white; }
-        .nav-item.active { background: var(--primary-color); color: white; font-weight: bold; }
-        .nav-item i { margin-right: 10px; width: 20px; }
-
-        .section-title {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            color: #94a3b8;
-            margin: 20px 0 10px 15px;
-            letter-spacing: 1px;
-        }
-
-        /* Main Content Area */
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            background: white;
-            margin: 15px;
-            border-radius: 16px;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-        }
-
-        .top-bar {
-            padding: 15px 30px;
-            border-bottom: 1px solid #e2e8f0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .question-container {
-            flex: 1;
-            padding: 40px 60px;
-            overflow-y: auto;
-        }
-
-        .badge {
-            padding: 4px 12px;
-            border-radius: 9999px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            background: #dbeafe;
-            color: var(--primary-color);
-        }
-
-        h1.question-text {
-            font-size: 2.2rem;
-            line-height: 1.4;
-            margin: 20px 0;
-            color: #0f172a;
-        }
-
-        .answer-card {
-            background: #f8fafc;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 25px;
-            margin-top: 30px;
-            display: none;
-            animation: slideUp 0.4s ease-out;
-        }
-
-        .answer-card.visible { display: block; }
-
-        .ans-header { color: var(--success); font-weight: 800; font-size: 1.5rem; margin-bottom: 10px; display: flex; align-items: center; }
-        .ans-header i { margin-right: 10px; }
-
-        .explanation-text { font-size: 1.2rem; color: #475569; border-top: 1px solid #cbd5e1; padding-top: 15px; margin-top: 15px; }
+        /* Answer Section */
+        .answer-box { margin-top: 30px; padding: 20px; border-radius: 12px; background: #f0fdf4; border-left: 5px solid var(--success); display: none; animation: fadeIn 0.4s; }
+        .answer-box.visible { display: block; }
 
         /* Controls */
-        .controls {
-            padding: 20px 40px;
-            border-top: 1px solid #e2e8f0;
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-        }
+        .controls { padding: 20px; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+        .btn { padding: 12px 25px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; transition: 0.2s; display: flex; align-items: center; gap: 8px; }
+        .btn-prev { background: #f1f5f9; color: #475569; }
+        .btn-next { background: var(--primary); color: white; }
+        .btn-show { background: var(--warning); color: white; }
 
-        button {
-            padding: 12px 28px;
-            border-radius: 10px;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s;
-        }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid #e2e8f0; padding: 12px; text-align: left; }
+        .true { color: var(--success); font-weight: bold; }
+        .false { color: var(--danger); font-weight: bold; }
 
-        .btn-secondary { background: #f1f5f9; color: #475569; }
-        .btn-primary { background: var(--primary-color); color: white; }
-        .btn-accent { background: var(--accent); color: white; }
-        button:hover { filter: brightness(0.9); transform: translateY(-1px); }
-
-        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; font-size: 1.1rem; }
-        th, td { border: 1px solid #e2e8f0; padding: 15px; text-align: left; }
-        th { background: #f8fafc; color: #64748b; }
-        .true-text { color: var(--success); font-weight: bold; }
-        .false-text { color: #ef4444; font-weight: bold; }
-
-        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
 <div class="sidebar">
     <div class="sidebar-header">
-        <h3><i class="fas fa-graduation-cap"></i> CÔNG NGHỆ 10</h3>
-        <small style="color: #94a3b8">Hệ thống sửa bài Mã 101</small>
+        <h3 style="margin:0"><i class="fas fa-book-open"></i> GIÁO TRÌNH CÔNG NGHỆ</h3>
+        <p style="font-size: 0.8rem; color: #94a3b8; margin: 5px 0 0">Hệ thống học tập thông minh</p>
     </div>
-    <ul class="nav-list" id="sidebar-nav">
-        </ul>
+    <ul class="nav-list" id="sidebar-nav"></ul>
 </div>
 
 <div class="main-content">
-    <div class="top-bar">
-        <span class="badge" id="type-badge">PHẦN I: TRẮC NGHIỆM</span>
-        <div class="page-num" id="progress-text">Câu 1 / 19</div>
+    <div class="progress-container">
+        <div id="progress-bar"></div>
     </div>
+    
+    <div class="content-card">
+        <div class="question-area">
+            <span class="q-tag" id="q-type">LOẠI CÂU HỎI</span>
+            <div class="q-text" id="q-text">Đang tải dữ liệu...</div>
+            <img src="" id="q-img" class="q-image">
+            <div id="q-dynamic-content"></div>
 
-    <div class="question-container">
-        <h1 class="question-text" id="q-text">Đang tải câu hỏi...</h1>
-        <div id="q-extra"></div> <div class="answer-card" id="answer-card">
-            <div class="ans-header"><i class="fas fa-check-circle"></i> ĐÁP ÁN CHÍNH XÁC</div>
-            <div id="ans-val" style="font-size: 1.8rem; font-weight: 700; color: #1e293b;"></div>
-            <div class="explanation-text" id="exp-val"></div>
+            <div class="answer-box" id="answer-box">
+                <div style="color: var(--success); font-weight: bold; margin-bottom: 10px;">
+                    <i class="fas fa-check-circle"></i> ĐÁP ÁN VÀ GIẢI THÍCH:
+                </div>
+                <div id="ans-val" style="font-size: 1.1rem; margin-bottom: 10px; font-weight: 600;"></div>
+                <div id="exp-val" style="color: #475569; font-style: italic;"></div>
+            </div>
         </div>
-    </div>
 
-    <div class="controls">
-        <button class="btn-secondary" onclick="changeSlide(-1)"><i class="fas fa-arrow-left"></i> Câu trước</button>
-        <button class="btn-accent" onclick="toggleAnswer()"><i class="fas fa-eye"></i> Hiện đáp án (Space)</button>
-        <button class="btn-primary" onclick="changeSlide(1)">Câu tiếp theo <i class="fas fa-arrow-right"></i></button>
+        <div class="controls">
+            <button class="btn btn-prev" onclick="move(-1)"><i class="fas fa-chevron-left"></i> Câu trước</button>
+            <button class="btn btn-show" onclick="toggleAns()"><i class="fas fa-lightbulb"></i> Gợi ý (Space)</button>
+            <button class="btn btn-next" onclick="move(1)">Câu tiếp theo <i class="fas fa-chevron-right"></i></button>
+        </div>
     </div>
 </div>
 
 <script>
-    const data = [
-        { t: "TRẮC NGHIỆM", q: "Đường gióng kích thước được vẽ bằng nét vẽ nào?", a: "A. Nét liền mảnh", e: "Theo TCVN, các đường phụ trợ như đường gióng, đường kích thước phải dùng nét mảnh để làm nổi bật vật thể vẽ bằng nét đậm." },
-        { t: "TRẮC NGHIỆM", q: "Ngành công nghệ nào biến đổi điện năng thành cơ năng dựa trên cảm ứng điện từ?", a: "C. Công nghệ điện – cơ", e: "Nguyên lý này là nền tảng của các loại động cơ điện dùng trong sinh hoạt và công nghiệp." },
-        { t: "TRẮC NGHIỆM", q: "Công nghệ là gì?", a: "A. Giải pháp, quy trình, bí quyết kĩ thuật...", e: "Công nghệ bao hàm cả tri thức (bí quyết) lẫn công cụ để giải quyết vấn đề sản xuất." },
-        { t: "TRẮC NGHIỆM", q: "Ngành nghề nào thuộc lĩnh vực cơ khí?", a: "C. Cơ khí chế tạo", e: "Lĩnh vực này chịu trách nhiệm sản xuất mọi chi tiết từ ốc vít đến động cơ phản lực." },
-        { t: "TRẮC NGHIỆM", q: "Công nghệ bồi đắp vật liệu theo từng lớp?", a: "B. Công nghệ in 3D", e: "Sản xuất bồi đắp (Additive Manufacturing) giúp tạo ra các chi tiết phức tạp mà phương pháp cắt gọt không làm được." },
-        { t: "TRẮC NGHIỆM", q: "Quan sát thiết bị in 3D trong đề bài. Đây là gì?", a: "C. Công nghệ in 3D", e: "Dấu hiệu nhận biết là đầu phun đang đùn vật liệu nóng chảy theo lớp." },
-        { t: "TRẮC NGHIỆM", q: "Đâu là ví dụ về công nghệ điện quang?", a: "B. Đèn LED", e: "LED là công nghệ bán dẫn phát sáng hiện đại nhất hiện nay." },
-        { t: "TRẮC NGHIỆM", q: "Cách mạng công nghiệp 4.0 bắt đầu khi nào?", a: "D. Đầu thế kỷ XXI", e: "Kỷ nguyên của trí tuệ nhân tạo, vạn vật kết nối và dữ liệu lớn." },
-        { t: "TRẮC NGHIỆM", q: "Thành phần hệ thống kỹ thuật?", a: "B. Đầu vào, bộ phận xử lý và đầu ra", e: "Bất kể quy mô nào, hệ thống đều vận hành theo chu trình: Tiếp nhận - Xử lý - Kết quả." },
-        { t: "TRẮC NGHIỆM", q: "Có bao nhiêu khổ giấy chính theo TCVN?", a: "D. 5", e: "Kích thước giảm dần từ A0 đến A4 theo tỷ lệ căn 2." },
-        { t: "TRẮC NGHIỆM", q: "Robot thông minh thuộc cách mạng nào?", a: "C. Cách mạng 4.0", e: "Khác với robot tự động hóa ở cách mạng 3.0, robot 4.0 có khả năng tự tư duy và học hỏi." },
-        { t: "TRẮC NGHIỆM", q: "Công nghệ mô phỏng trí tuệ con người?", a: "B. Công nghệ AI", e: "Trí tuệ nhân tạo đang thay đổi cách chúng ta vận hành thế giới kỹ thuật." },
-
-        { t: "ĐÚNG/SAI", q: "Nhận định về CMCN:", isTF: true, rows: [["A. 1.0 dùng hơi nước", "Đúng"], ["B. 3.0 dùng điện năng", "Sai"], ["C. 4.0 dùng AI, IoT", "Đúng"], ["D. 2.0 cuối thế kỷ XIX", "Đúng"]] },
-        { t: "ĐÚNG/SAI", q: "Bản vẽ vật thể hình chữ H:", isTF: true, rows: [["A. Có 2 phương pháp chiếu", "Đúng"], ["B. Hướng nhìn rất quan trọng", "Đúng"], ["C. Đường bao vẽ nét mảnh", "Sai"], ["D. Hình chiếu bằng ở dưới", "Đúng"]] },
-        { t: "ĐÚNG/SAI", q: "Mặt cắt và hình cắt:", isTF: true, rows: [["A. Mặt cắt là tiết diện ngang", "Đúng"], ["B. Hình cắt bỏ phần phía sau", "Sai"], ["C. Nét gạch gạch là vật liệu", "Đúng"], ["D. Mặt cắt chập vẽ nét mảnh", "Sai"]] },
-        { t: "ĐÚNG/SAI", q: "Hình chiếu trục đo:", isTF: true, rows: [["A. Vuông góc đều p=q=r=1", "Đúng"], ["B. Xiên góc cân góc 120 độ", "Sai"], ["C. Tăng tính trực quan", "Đúng"], ["D. xOz giữ nguyên dạng", "Đúng"]] },
-
-        { t: "TỰ LUẬN", q: "Đánh giá Smartphone và Điện thoại cổ.", a: "Smartphone (1) ưu thế về AI, cảm ứng, đa năng; Điện thoại cổ (2) ưu thế về pin, độ bền, phím vật lý.", e: "Học sinh cần phân tích đủ: Cấu tạo, Tính năng, Thẩm mỹ, Giá thành." },
-        { t: "TỰ LUẬN", q: "Các tiêu chuẩn trình bày bản vẽ?", a: "Khổ giấy, Tỉ lệ, Nét vẽ, Chữ viết, Ghi kích thước.", e: "Đây là quy định bắt buộc theo tiêu chuẩn Việt Nam (TCVN)." },
-        { t: "TỰ LUẬN", q: "Nguyên tắc vẽ hình chiếu PPCG1?", a: "Hình chiếu Đứng ở trên, Hình chiếu Bằng ở dưới.", e: "Lưu ý: Hai hình chiếu phải đặt đúng vị trí tương đối và thẳng hàng gióng." }
+    // Trong thực tế, bạn sẽ dùng fetch('data.json')
+    const questions = [
+        {
+            type: "TRẮC NGHIỆM",
+            q: "Trong phương pháp chiếu góc thứ nhất, hình chiếu bằng được đặt ở đâu so với hình chiếu đứng?",
+            img: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800", // Demo ảnh
+            a: "B. Ở dưới",
+            e: "Theo TCVN, hình chiếu bằng luôn đặt dưới hình chiếu đứng để đảm bảo tính đồng bộ của bản vẽ kỹ thuật."
+        },
+        {
+            type: "ĐÚNG/SAI",
+            q: "Đánh giá các tiêu chuẩn về nét vẽ theo TCVN 8-20:2002:",
+            isTF: true,
+            rows: [
+                ["Nét liền mảnh dùng để vẽ đường gióng kích thước", "Đúng"],
+                ["Nét đứt mảnh dùng để vẽ đường tâm", "Sai"],
+                ["Nét gạch chấm mảnh dùng để vẽ trục đối xứng", "Đúng"],
+                ["Chiều rộng nét đậm thường gấp 2 lần nét mảnh", "Đúng"]
+            ],
+            e: "Nét đứt mảnh dùng cho đường bao khuất. Đường tâm phải dùng nét gạch chấm mảnh."
+        }
     ];
 
-    let current = 0;
+    let currentIdx = 0;
 
-    function initSidebar() {
-        const nav = document.getElementById('sidebar-nav');
-        let currentSection = "";
-        data.forEach((item, i) => {
-            if(item.t !== currentSection) {
-                currentSection = item.t;
-                nav.innerHTML += `<li class="section-title">${currentSection}</li>`;
-            }
-            nav.innerHTML += `<li class="nav-item" id="nav-${i}" onclick="goTo(${i})"><i class="fas fa-file-alt"></i> Câu ${i+1}</li>`;
-        });
-        updateUI();
+    function init() {
+        renderSidebar();
+        showQuestion();
     }
 
-    function updateUI() {
-        const item = data[current];
-        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-        document.getElementById(`nav-${current}`).classList.add('active');
-        document.getElementById('type-badge').innerText = `PHẦN: ${item.t}`;
-        document.getElementById('progress-text').innerText = `Câu ${current + 1} / ${data.length}`;
-        document.getElementById('q-text').innerText = item.q;
-        document.getElementById('answer-card').classList.remove('visible');
+    function renderSidebar() {
+        const nav = document.getElementById('sidebar-nav');
+        nav.innerHTML = questions.map((q, i) => `
+            <li class="nav-item ${i === currentIdx ? 'active' : ''}" onclick="goTo(${i})">
+                <i class="fas fa-question-circle" style="margin-right:10px"></i> Câu ${i + 1}
+            </li>
+        `).join('');
+    }
+
+    function showQuestion() {
+        const q = questions[currentIdx];
+        document.getElementById('q-type').innerText = q.type;
+        document.getElementById('q-text').innerText = q.q;
         
-        const extra = document.getElementById('q-extra');
-        extra.innerHTML = "";
-        if(item.isTF) {
+        // Xử lý ảnh
+        const img = document.getElementById('q-img');
+        if(q.img) { img.src = q.img; img.classList.add('show'); }
+        else { img.classList.remove('show'); }
+
+        // Xử lý nội dung động (Bảng đúng sai hoặc các lựa chọn)
+        const dynamic = document.getElementById('q-dynamic-content');
+        dynamic.innerHTML = "";
+        if(q.isTF) {
             let table = `<table><tr><th>Nhận định</th><th>Đáp án</th></tr>`;
-            item.rows.forEach(r => {
-                table += `<tr><td>${r[0]}</td><td class="${r[1]=='Đúng'?'true-text':'false-text'}">${r[1]}</td></tr>`;
+            q.rows.forEach(r => {
+                table += `<tr><td>${r[0]}</td><td class="${r[1]=='Đúng'?'true':'false'}">${r[1]}</td></tr>`;
             });
             table += `</table>`;
-            extra.innerHTML = table;
+            dynamic.innerHTML = table;
         }
 
-        document.getElementById('ans-val').innerText = item.a || "Đáp án phần Đúng/Sai hiển thị ở trên";
-        document.getElementById('exp-val').innerHTML = `<strong>Phân tích giáo khoa:</strong> ${item.e || ""}`;
+        // Reset đáp án
+        document.getElementById('answer-box').classList.remove('visible');
+        document.getElementById('ans-val').innerText = q.a || "Xem kết quả bảng trên";
+        document.getElementById('exp-val').innerText = q.e;
+
+        // Cập nhật Progress Bar
+        const progress = ((currentIdx + 1) / questions.length) * 100;
+        document.getElementById('progress-bar').style.width = `${progress}%`;
+        
+        renderSidebar();
     }
 
-    function goTo(index) { current = index; updateUI(); }
-    function changeSlide(n) { current = (current + n + data.length) % data.length; updateUI(); }
-    function toggleAnswer() { document.getElementById('answer-card').classList.toggle('visible'); }
+    function move(step) {
+        currentIdx = (currentIdx + step + questions.length) % questions.length;
+        showQuestion();
+    }
 
+    function goTo(i) { currentIdx = i; showQuestion(); }
+    function toggleAns() { document.getElementById('answer-box').classList.toggle('visible'); }
+
+    // Phím tắt
     document.addEventListener('keydown', (e) => {
-        if(e.key === "ArrowRight") changeSlide(1);
-        if(e.key === "ArrowLeft") changeSlide(-1);
-        if(e.key === " ") { e.preventDefault(); toggleAnswer(); }
+        if(e.code === "Space") { e.preventDefault(); toggleAns(); }
+        if(e.key === "ArrowRight") move(1);
+        if(e.key === "ArrowLeft") move(-1);
     });
 
-    initSidebar();
+    init();
 </script>
 </body>
 </html>
