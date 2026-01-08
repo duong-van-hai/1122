@@ -3,196 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ thống Giáo trình Công nghệ 10</title>
+    <title>E-Tech 10: Giáo trình Công nghệ số</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary: #2563eb;
-            --secondary: #64748b;
-            --success: #059669;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --bg: #f8fafc;
+            --primary: #0f172a; --accent: #3b82f6; --text: #334155; --bg: #f1f5f9;
         }
+        body { font-family: 'Inter', sans-serif; margin: 0; display: flex; height: 100vh; background: var(--bg); color: var(--text); }
 
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; display: flex; height: 100vh; }
+        /* Sidebar Mục lục */
+        .sidebar { width: 320px; background: white; border-right: 1px solid #e2e8f0; display: flex; flex-direction: column; }
+        .sidebar-header { padding: 30px 20px; background: var(--primary); color: white; }
+        .toc { flex: 1; overflow-y: auto; padding: 20px; }
+        .toc-item { padding: 12px 15px; border-radius: 8px; cursor: pointer; margin-bottom: 5px; transition: 0.2s; font-weight: 500; }
+        .toc-item:hover { background: #eff6ff; color: var(--accent); }
+        .toc-item.active { background: var(--accent); color: white; }
 
-        /* Sidebar */
-        .sidebar { width: 300px; background: #1e293b; color: white; display: flex; flex-direction: column; }
-        .sidebar-header { padding: 25px; background: #0f172a; border-bottom: 1px solid #334155; }
-        .nav-list { flex: 1; overflow-y: auto; padding: 15px; list-style: none; }
-        .nav-item { padding: 12px; margin-bottom: 8px; border-radius: 8px; cursor: pointer; transition: 0.3s; font-size: 0.9rem; color: #cbd5e1; display: flex; align-items: center; }
-        .nav-item:hover { background: #334155; }
-        .nav-item.active { background: var(--primary); color: white; }
+        /* Nội dung bài học */
+        .content-area { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+        .header-bar { padding: 15px 40px; background: white; border-bottom: 1px solid #e2e8f0; sticky; top: 0; display: flex; justify-content: space-between; align-items: center; }
+        .article { max-width: 900px; margin: 40px auto; padding: 0 40px; }
 
-        /* Main Content */
-        .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; padding: 20px; }
-        .content-card { background: white; border-radius: 15px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); flex: 1; display: flex; flex-direction: column; position: relative; }
-        
-        /* Progress Bar */
-        .progress-container { height: 6px; background: #e2e8f0; width: 100%; border-radius: 3px; margin-bottom: 20px; }
-        #progress-bar { height: 100%; background: var(--primary); width: 0%; transition: 0.5s; border-radius: 3px; }
+        /* Component lý thuyết */
+        h1 { color: var(--primary); font-size: 2.2rem; }
+        h2 { border-left: 4px solid var(--accent); padding-left: 15px; margin-top: 30px; color: #1e293b; }
+        p { line-height: 1.8; font-size: 1.1rem; }
+        .image-box { background: white; padding: 10px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin: 20px 0; text-align: center; }
+        .image-box img { max-width: 100%; border-radius: 8px; }
 
-        .question-area { flex: 1; padding: 40px; overflow-y: auto; }
-        .q-tag { display: inline-block; padding: 4px 12px; border-radius: 20px; background: #dbeafe; color: var(--primary); font-size: 0.8rem; font-weight: bold; margin-bottom: 15px; }
-        .q-text { font-size: 1.5rem; color: #1e293b; font-weight: 600; margin-bottom: 20px; line-height: 1.4; }
-        
-        .q-image { max-width: 100%; max-height: 300px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #e2e8f0; display: none; }
-        .q-image.show { display: block; }
+        /* Component Trắc nghiệm củng cố */
+        .quiz-card { background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 15px; padding: 25px; margin-top: 40px; }
+        .quiz-option { background: white; padding: 12px 20px; border: 1px solid #cbd5e1; border-radius: 8px; margin-top: 10px; cursor: pointer; transition: 0.2s; }
+        .quiz-option:hover { border-color: var(--accent); background: #eff6ff; }
+        .quiz-option.correct { background: #dcfce7; border-color: #22c55e; color: #166534; font-weight: bold; }
 
-        /* Options */
-        .options-grid { display: grid; gap: 10px; margin-top: 20px; }
-        .option-btn { padding: 15px; border: 2px solid #e2e8f0; border-radius: 10px; cursor: pointer; transition: 0.2s; background: white; text-align: left; }
-        .option-btn:hover { border-color: var(--primary); background: #f0f7ff; }
-
-        /* Answer Section */
-        .answer-box { margin-top: 30px; padding: 20px; border-radius: 12px; background: #f0fdf4; border-left: 5px solid var(--success); display: none; animation: fadeIn 0.4s; }
-        .answer-box.visible { display: block; }
-
-        /* Controls */
-        .controls { padding: 20px; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
-        .btn { padding: 12px 25px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; transition: 0.2s; display: flex; align-items: center; gap: 8px; }
-        .btn-prev { background: #f1f5f9; color: #475569; }
+        /* Điều hướng bài học */
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 20px; border-top: 1px solid #e2e8f0; }
+        .btn-nav { padding: 12px 24px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 10px; }
         .btn-next { background: var(--primary); color: white; }
-        .btn-show { background: var(--warning); color: white; }
-
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { border: 1px solid #e2e8f0; padding: 12px; text-align: left; }
-        .true { color: var(--success); font-weight: bold; }
-        .false { color: var(--danger); font-weight: bold; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
 <div class="sidebar">
     <div class="sidebar-header">
-        <h3 style="margin:0"><i class="fas fa-book-open"></i> GIÁO TRÌNH CÔNG NGHỆ</h3>
-        <p style="font-size: 0.8rem; color: #94a3b8; margin: 5px 0 0">Hệ thống học tập thông minh</p>
+        <h2 style="color: white; margin: 0; border: none; padding: 0;">E-Tech 10</h2>
+        <small>Giáo trình Công nghệ mới 2026</small>
     </div>
-    <ul class="nav-list" id="sidebar-nav"></ul>
+    <div class="toc" id="toc">
+        </div>
 </div>
 
-<div class="main-content">
-    <div class="progress-container">
-        <div id="progress-bar"></div>
-    </div>
-    
-    <div class="content-card">
-        <div class="question-area">
-            <span class="q-tag" id="q-type">LOẠI CÂU HỎI</span>
-            <div class="q-text" id="q-text">Đang tải dữ liệu...</div>
-            <img src="" id="q-img" class="q-image">
-            <div id="q-dynamic-content"></div>
-
-            <div class="answer-box" id="answer-box">
-                <div style="color: var(--success); font-weight: bold; margin-bottom: 10px;">
-                    <i class="fas fa-check-circle"></i> ĐÁP ÁN VÀ GIẢI THÍCH:
-                </div>
-                <div id="ans-val" style="font-size: 1.1rem; margin-bottom: 10px; font-weight: 600;"></div>
-                <div id="exp-val" style="color: #475569; font-style: italic;"></div>
-            </div>
-        </div>
-
-        <div class="controls">
-            <button class="btn btn-prev" onclick="move(-1)"><i class="fas fa-chevron-left"></i> Câu trước</button>
-            <button class="btn btn-show" onclick="toggleAns()"><i class="fas fa-lightbulb"></i> Gợi ý (Space)</button>
-            <button class="btn btn-next" onclick="move(1)">Câu tiếp theo <i class="fas fa-chevron-right"></i></button>
+<div class="content-area">
+    <div class="header-bar">
+        <span id="breadcrumb">Chương 3 / Bài 1</span>
+        <div class="tools">
+            <button title="Chế độ tối" style="background:none; border:none; cursor:pointer;"><i class="fas fa-moon"></i></button>
         </div>
     </div>
+
+    <div class="article" id="lesson-content">
+        </div>
 </div>
 
 <script>
-    // Trong thực tế, bạn sẽ dùng fetch('data.json')
-    const questions = [
-        {
-            type: "TRẮC NGHIỆM",
-            q: "Trong phương pháp chiếu góc thứ nhất, hình chiếu bằng được đặt ở đâu so với hình chiếu đứng?",
-            img: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800", // Demo ảnh
-            a: "B. Ở dưới",
-            e: "Theo TCVN, hình chiếu bằng luôn đặt dưới hình chiếu đứng để đảm bảo tính đồng bộ của bản vẽ kỹ thuật."
-        },
-        {
-            type: "ĐÚNG/SAI",
-            q: "Đánh giá các tiêu chuẩn về nét vẽ theo TCVN 8-20:2002:",
-            isTF: true,
-            rows: [
-                ["Nét liền mảnh dùng để vẽ đường gióng kích thước", "Đúng"],
-                ["Nét đứt mảnh dùng để vẽ đường tâm", "Sai"],
-                ["Nét gạch chấm mảnh dùng để vẽ trục đối xứng", "Đúng"],
-                ["Chiều rộng nét đậm thường gấp 2 lần nét mảnh", "Đúng"]
-            ],
-            e: "Nét đứt mảnh dùng cho đường bao khuất. Đường tâm phải dùng nét gạch chấm mảnh."
-        }
-    ];
+    const courseData = {
+        title: "Chương 3: Vẽ kỹ thuật cơ sở",
+        lessons: [
+            {
+                id: 1,
+                title: "Bài 1: Tiêu chuẩn bản vẽ",
+                blocks: [
+                    { type: 'text', content: 'Chào mừng các em đến với thế giới của những bản vẽ kỹ thuật - ngôn ngữ chung của các kỹ sư toàn thế giới.' },
+                    { type: 'heading', content: '1. Khổ giấy (TCVN 7285:2003)' },
+                    { type: 'text', content: 'Các khổ giấy chính được lập ra từ khổ giấy A0. Khổ giấy sau có diện tích bằng một nửa khổ giấy trước.' },
+                    { type: 'image', url: 'https://images.unsplash.com/photo-1544383023-53fafa015696?auto=format&fit=crop&q=80&w=1000', caption: 'Hình 1.1: Cách chia các khổ giấy' },
+                    { type: 'heading', content: 'Kiểm tra nhanh' },
+                    { type: 'quiz', question: 'Kích thước của khổ giấy A4 là bao nhiêu?', options: ['210x297 mm', '297x420 mm', '148x210 mm'], correct: 0 }
+                ]
+            }
+            // Thêm bài 2, 3...
+        ]
+    };
 
-    let currentIdx = 0;
-
-    function init() {
-        renderSidebar();
-        showQuestion();
-    }
-
-    function renderSidebar() {
-        const nav = document.getElementById('sidebar-nav');
-        nav.innerHTML = questions.map((q, i) => `
-            <li class="nav-item ${i === currentIdx ? 'active' : ''}" onclick="goTo(${i})">
-                <i class="fas fa-question-circle" style="margin-right:10px"></i> Câu ${i + 1}
-            </li>
-        `).join('');
-    }
-
-    function showQuestion() {
-        const q = questions[currentIdx];
-        document.getElementById('q-type').innerText = q.type;
-        document.getElementById('q-text').innerText = q.q;
+    function renderLesson(lesson) {
+        const container = document.getElementById('lesson-content');
+        let html = `<h1>${lesson.title}</h1>`;
         
-        // Xử lý ảnh
-        const img = document.getElementById('q-img');
-        if(q.img) { img.src = q.img; img.classList.add('show'); }
-        else { img.classList.remove('show'); }
+        lesson.blocks.forEach(block => {
+            if(block.type === 'text') html += `<p>${block.content}</p>`;
+            if(block.type === 'heading') html += `<h2>${block.content}</h2>`;
+            if(block.type === 'image') {
+                html += `<div class="image-box">
+                            <img src="${block.url}">
+                            <div style="font-size:0.9rem; color:#64748b; margin-top:10px">${block.caption}</div>
+                         </div>`;
+            }
+            if(block.type === 'quiz') {
+                html += `<div class="quiz-card">
+                            <p><strong>Câu hỏi:</strong> ${block.question}</p>
+                            ${block.options.map((opt, idx) => `
+                                <div class="quiz-option" onclick="checkQuiz(this, ${idx === block.correct})">${opt}</div>
+                            `).join('')}
+                         </div>`;
+            }
+        });
 
-        // Xử lý nội dung động (Bảng đúng sai hoặc các lựa chọn)
-        const dynamic = document.getElementById('q-dynamic-content');
-        dynamic.innerHTML = "";
-        if(q.isTF) {
-            let table = `<table><tr><th>Nhận định</th><th>Đáp án</th></tr>`;
-            q.rows.forEach(r => {
-                table += `<tr><td>${r[0]}</td><td class="${r[1]=='Đúng'?'true':'false'}">${r[1]}</td></tr>`;
-            });
-            table += `</table>`;
-            dynamic.innerHTML = table;
-        }
-
-        // Reset đáp án
-        document.getElementById('answer-box').classList.remove('visible');
-        document.getElementById('ans-val').innerText = q.a || "Xem kết quả bảng trên";
-        document.getElementById('exp-val').innerText = q.e;
-
-        // Cập nhật Progress Bar
-        const progress = ((currentIdx + 1) / questions.length) * 100;
-        document.getElementById('progress-bar').style.width = `${progress}%`;
+        html += `<div class="nav-buttons">
+                    <button class="btn-nav"><i class="fas fa-arrow-left"></i> Bài trước</button>
+                    <button class="btn-nav btn-next">Bài tiếp theo <i class="fas fa-arrow-right"></i></button>
+                 </div>`;
         
-        renderSidebar();
+        container.innerHTML = html;
     }
 
-    function move(step) {
-        currentIdx = (currentIdx + step + questions.length) % questions.length;
-        showQuestion();
+    function checkQuiz(el, isCorrect) {
+        if(isCorrect) {
+            el.classList.add('correct');
+            el.innerHTML += ' <i class="fas fa-check"></i>';
+        } else {
+            el.style.borderColor = '#ef4444';
+            el.style.background = '#fef2f2';
+            alert('Chưa chính xác, hãy xem lại lý thuyết ở trên nhé!');
+        }
     }
 
-    function goTo(i) { currentIdx = i; showQuestion(); }
-    function toggleAns() { document.getElementById('answer-box').classList.toggle('visible'); }
-
-    // Phím tắt
-    document.addEventListener('keydown', (e) => {
-        if(e.code === "Space") { e.preventDefault(); toggleAns(); }
-        if(e.key === "ArrowRight") move(1);
-        if(e.key === "ArrowLeft") move(-1);
+    // Khởi tạo mục lục
+    const toc = document.getElementById('toc');
+    courseData.lessons.forEach(lesson => {
+        const div = document.createElement('div');
+        div.className = 'toc-item';
+        div.innerText = lesson.title;
+        div.onclick = () => renderLesson(lesson);
+        toc.appendChild(div);
     });
 
-    init();
+    // Mặc định bài 1
+    renderLesson(courseData.lessons[0]);
 </script>
 </body>
 </html>
