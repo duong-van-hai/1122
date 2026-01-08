@@ -2,95 +2,179 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Hệ thống Giáo trình Công nghệ 10-11-12</title>
+    <title>E-Tech: Hệ thống 60 Bài giảng Công nghệ</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root { --dark: #1e293b; --primary: #3b82f6; --bg: #f8fafc; }
-        body { display: flex; margin: 0; font-family: 'Segoe UI', sans-serif; height: 100vh; background: var(--bg); }
+        :root { --primary: #2563eb; --sidebar-bg: #1e293b; --content-bg: #f8fafc; }
+        body { display: flex; margin: 0; font-family: 'Inter', sans-serif; height: 100vh; background: var(--content-bg); }
 
-        /* Chọn khối lớp ở trên cùng Sidebar */
-        #sidebar { width: 280px; background: var(--dark); color: white; display: flex; flex-direction: column; }
-        .selector-zone { padding: 20px; background: #0f172a; border-bottom: 1px solid #334155; }
-        select { width: 100%; padding: 10px; border-radius: 5px; cursor: pointer; }
+        /* Sidebar điều hướng */
+        #sidebar { width: 320px; background: var(--sidebar-bg); color: white; display: flex; flex-direction: column; box-shadow: 4px 0 10px rgba(0,0,0,0.1); }
+        .sidebar-header { padding: 20px; background: #0f172a; text-align: center; }
+        
+        /* Bộ chọn khối lớp */
+        .grade-selector { padding: 15px; background: #334155; }
+        select { width: 100%; padding: 12px; border-radius: 8px; border: none; background: white; font-weight: bold; cursor: pointer; }
 
-        /* Danh sách bài học */
+        /* Danh sách bài học có cuộn dọc */
         #menu-list { flex: 1; overflow-y: auto; padding: 10px; }
-        .menu-item { padding: 12px; margin-bottom: 5px; border-radius: 6px; cursor: pointer; transition: 0.2s; font-size: 0.9rem; border-bottom: 1px solid #334155; }
-        .menu-item:hover { background: #334155; }
-        .menu-item.active { background: var(--primary); color: white; }
+        .menu-item { 
+            padding: 12px 15px; margin-bottom: 8px; border-radius: 8px; cursor: pointer; 
+            transition: 0.3s; font-size: 0.9rem; border-left: 4px solid transparent;
+            background: rgba(255,255,255,0.05);
+        }
+        .menu-item:hover { background: rgba(255,255,255,0.1); border-left-color: var(--primary); }
+        .menu-item.active { background: var(--primary); border-left-color: white; font-weight: bold; }
 
-        /* Vùng nội dung */
-        #main-view { flex: 1; padding: 40px; overflow-y: auto; }
-        .article-card { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); max-width: 800px; margin: auto; }
-        h1 { color: var(--dark); border-bottom: 2px solid var(--primary); padding-bottom: 10px; }
-        .content-body { font-size: 1.1rem; line-height: 1.8; color: #475569; }
+        /* Vùng nội dung chính */
+        #main-content { flex: 1; padding: 40px; overflow-y: auto; display: flex; justify-content: center; }
+        .article { width: 100%; max-width: 850px; background: white; padding: 50px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); height: fit-content; }
+        
+        .badge { background: #dbeafe; color: var(--primary); padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
+        h1 { color: #1e293b; margin-top: 15px; font-size: 2rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 20px; }
+        .content-section { font-size: 1.15rem; line-height: 1.8; color: #475569; margin-top: 25px; }
+        .info-box { background: #f0f9ff; border-left: 5px solid #0ea5e9; padding: 20px; margin-top: 30px; border-radius: 4px; }
     </style>
 </head>
 <body>
 
-    <div id="sidebar">
-        <div class="selector-zone">
-            <label style="display:block; margin-bottom:10px;">CHỌN KHỐI LỚP:</label>
-            <select id="grade-select" onchange="updateMenu()">
-                <option value="KHOI_10">Công nghệ 10 (Thiết kế)</option>
-                <option value="KHOI_11">Công nghệ 11 (Cơ khí)</option>
-                <option value="KHOI_12">Công nghệ 12 (Điện - Điện tử)</option>
-            </select>
-        </div>
-        <div id="menu-list"></div>
+<div id="sidebar">
+    <div class="sidebar-header">
+        <h2 style="margin:0"><i class="fas fa-graduation-cap"></i> E-TECH 2026</h2>
+        <small style="color: #94a3b8">Học tập mọi lúc, mọi nơi</small>
+    </div>
+    
+    <div class="grade-selector">
+        <label style="font-size: 0.8rem; margin-bottom: 5px; display: block; color: #cbd5e1;">CHƯƠNG TRÌNH LỚP:</label>
+        <select id="grade-picker" onchange="renderMenu()">
+            <option value="10">Công nghệ 10 - Thiết kế kĩ thuật</option>
+            <option value="11">Công nghệ 11 - Cơ khí chế tạo</option>
+            <option value="12">Công nghệ 12 - Điện & Điện tử</option>
+        </select>
     </div>
 
-    <div id="main-view">
-        <div id="display-area" class="article-card">
-            <h1>Chào mừng bạn</h1>
-            <p>Vui lòng chọn bài học để xem nội dung.</p>
+    <div id="menu-list">
+        </div>
+</div>
+
+<div id="main-content">
+    <div id="article-view" class="article">
+        <div style="text-align: center; padding: 50px;">
+            <i class="fas fa-book-open fa-4x" style="color: #e2e8f0;"></i>
+            <h2 style="color: #94a3b8">Vui lòng chọn bài học từ thực đơn bên trái</h2>
         </div>
     </div>
+</div>
 
-    <script>
-        // 1. TẠO DỮ LIỆU MẪU CHO 3 KHỐI (Mỗi khối 20 bài)
-        const data = { "KHOI_10": [], "KHOI_11": [], "KHOI_12": [] };
+<script>
+    // BỘ DỮ LIỆU FULL 60 BÀI
+    const database = {
+        "10": [
+            { id: 1, title: "Bài 1: Khái quát về công nghệ", detail: "Khám phá mối quan hệ giữa khoa học, kỹ thuật và công nghệ." },
+            { id: 2, title: "Bài 2: Hệ thống kỹ thuật", detail: "Phân tích cấu trúc: Đầu vào, bộ phận xử lý và đầu ra." },
+            { id: 3, title: "Bài 3: Cách mạng công nghiệp", detail: "Từ động cơ hơi nước đến trí tuệ nhân tạo (AI)." },
+            { id: 4, title: "Bài 4: Công nghệ mới", detail: "Tìm hiểu về công nghệ nano, in 3D và công nghệ plasma." },
+            { id: 5, title: "Bài 5: Đánh giá công nghệ", detail: "Các tiêu chí: Hiệu quả, độ tin cậy và tác động môi trường." },
+            { id: 6, title: "Bài 6: Cách mạng công nghiệp 4.0", detail: "Tác động của IoT và Big Data đến đời sống." },
+            { id: 7, title: "Bài 7: Ngành nghề kỹ thuật", detail: "Giới thiệu các nghề nghiệp trong lĩnh vực công nghệ." },
+            { id: 8, title: "Bài 8: Bản vẽ kỹ thuật", detail: "Các tiêu chuẩn cơ bản về khổ giấy, tỉ lệ và nét vẽ." },
+            { id: 9, title: "Bài 9: Hình chiếu vuông góc", detail: "Phương pháp chiếu góc thứ nhất và góc thứ ba." },
+            { id: 10, title: "Bài 10: Mặt cắt và hình cắt", detail: "Cách biểu diễn cấu tạo bên trong của vật thể." },
+            { id: 11, title: "Bài 11: Hình chiếu trục đo", detail: "Xây dựng hình ảnh 3D trực quan của vật thể." },
+            { id: 12, title: "Bài 12: Hình chiếu phối cảnh", detail: "Ứng dụng trong thiết kế kiến trúc và xây dựng." },
+            { id: 13, title: "Bài 13: Quy trình thiết kế", detail: "Từ ý tưởng đến hồ sơ kỹ thuật và chế tạo thử." },
+            { id: 14, title: "Bài 14: Lập hồ sơ kỹ thuật", detail: "Các thành phần của một bộ hồ sơ thiết kế chuẩn." },
+            { id: 15, title: "Bài 15: Chế tạo mẫu", detail: "Kỹ thuật tạo mẫu nhanh bằng máy in 3D." },
+            { id: 16, title: "Bài 16: Kiểm tra sản phẩm", detail: "Đánh giá mức độ hoàn thiện so với tiêu chí đề ra." },
+            { id: 17, title: "Bài 17: Dự án thiết kế 1", detail: "Thiết kế giá đỡ điện thoại thông minh." },
+            { id: 18, title: "Bài 18: Dự án thiết kế 2", detail: "Thiết kế hệ thống tưới cây tự động quy mô nhỏ." },
+            { id: 19, title: "Bài 19: Thẩm mỹ trong thiết kế", detail: "Mối liên hệ giữa công năng và vẻ đẹp sản phẩm." },
+            { id: 20, title: "Bài 20: Tổng kết chương trình", detail: "Ôn tập kiến thức cốt lõi công nghệ lớp 10." }
+        ],
+        "11": [
+            { id: 1, title: "Bài 1: Khái quát cơ khí chế tạo", detail: "Vai trò của cơ khí trong đời sống và sản xuất." },
+            { id: 2, title: "Bài 2: Vật liệu cơ khí", detail: "Tính chất của sắt, thép, đồng, nhôm và polyme." },
+            { id: 3, title: "Bài 3: Công nghệ đúc", detail: "Quy trình tạo hình vật thể bằng kim loại nóng chảy." },
+            { id: 4, title: "Bài 4: Công nghệ gia công áp lực", detail: "Tìm hiểu kỹ thuật rèn, dập và cán kim loại." },
+            { id: 5, title: "Bài 5: Công nghệ hàn", detail: "Các phương pháp nối kim loại: Hàn hồ quang, hàn hơi." },
+            { id: 6, title: "Bài 6: Gia công cắt gọt", detail: "Nguyên lý làm việc của máy tiện và máy phay." },
+            { id: 7, title: "Bài 7: Quy trình chế tạo", detail: "Xây dựng sơ đồ khối cho một quy trình sản xuất." },
+            { id: 8, title: "Bài 8: Tự động hóa cơ khí", detail: "Ứng dụng robot trong các dây chuyền sản xuất." },
+            { id: 9, title: "Bài 9: Ngành nghề cơ khí", detail: "Kỹ sư cơ khí, thợ tiện, thợ hàn và kỹ thuật viên." },
+            { id: 10, title: "Bài 10: An toàn lao động", detail: "Các quy tắc bảo hộ khi làm việc với máy móc." },
+            { id: 11, title: "Bài 11: Động cơ đốt trong", detail: "Cấu tạo và nguyên lý hoạt động của động cơ 4 kỳ." },
+            { id: 12, title: "Bài 12: Thân máy và nắp máy", detail: "Chi tiết khung xương của động cơ đốt trong." },
+            { id: 13, title: "Bài 13: Cơ cấu trục khuỷu", detail: "Biến chuyển động tịnh tiến thành chuyển động quay." },
+            { id: 14, title: "Bài 14: Hệ thống bôi trơn", detail: "Giảm ma sát và làm mát các chi tiết chuyển động." },
+            { id: 15, title: "Bài 15: Hệ thống làm mát", detail: "Tản nhiệt bằng nước và bằng không khí." },
+            { id: 16, title: "Bài 16: Hệ thống nhiên liệu", detail: "Cung cấp hỗn hợp xăng-không khí vào xilanh." },
+            { id: 17, title: "Bài 17: Hệ thống đánh lửa", detail: "Nguyên lý tạo tia lửa điện đốt cháy nhiên liệu." },
+            { id: 18, title: "Bài 18: Hệ thống khởi động", detail: "Sử dụng máy đề để khởi động động cơ." },
+            { id: 19, title: "Bài 19: Sử dụng động cơ", detail: "Ứng dụng động cơ đốt trong trên ô tô và tàu thủy." },
+            { id: 20, title: "Bài 20: Bảo dưỡng động cơ", detail: "Quy trình thay dầu, kiểm tra định kỳ máy móc." }
+        ],
+        "12": [
+            { id: 1, title: "Bài 1: Hệ thống điện quốc gia", detail: "Sơ đồ truyền tải điện từ nhà máy đến hộ gia đình." },
+            { id: 2, title: "Bài 2: Sản xuất điện năng", detail: "Thủy điện, nhiệt điện, điện gió và điện mặt trời." },
+            { id: 3, title: "Bài 3: Mạng điện hạ áp", detail: "Cấu tạo mạng điện trong các tòa nhà và xí nghiệp." },
+            { id: 4, title: "Bài 4: Thiết bị đóng cắt", detail: "Tìm hiểu về Aptomat (MCB), cầu chì và rơ le." },
+            { id: 5, title: "Bài 5: Máy biến áp ba pha", detail: "Nguyên lý tăng áp và hạ áp trong truyền tải điện." },
+            { id: 6, title: "Bài 6: Động cơ điện ba pha", detail: "Cấu tạo roto, stato và ứng dụng trong công nghiệp." },
+            { id: 7, title: "Bài 7: Mạch điện tử cơ bản", detail: "Tìm hiểu về điện trở, tụ điện và cuộn cảm." },
+            { id: 8, title: "Bài 8: Linh kiện bán dẫn", detail: "Diode, Transistor và ứng dụng trong mạch chỉnh lưu." },
+            { id: 9, title: "Bài 9: IC và vi mạch", detail: "Tìm hiểu về mạch tích hợp và công nghệ bán dẫn." },
+            { id: 10, title: "Bài 10: Mạch khuếch đại", detail: "Tăng cường tín hiệu âm thanh và hình ảnh." },
+            { id: 11, title: "Bài 11: Mạch tạo xung", detail: "Tạo tín hiệu nhấp nháy cho đèn báo hiệu." },
+            { id: 12, title: "Bài 12: Thiết kế mạch điện tử", detail: "Quy trình vẽ sơ đồ nguyên lý và làm mạch in." },
+            { id: 13, title: "Bài 13: Vi điều khiển (MCU)", detail: "Lập trình bộ não cho các thiết bị thông minh." },
+            { id: 14, title: "Bài 14: Cảm biến (Sensors)", detail: "Cảm biến nhiệt độ, ánh sáng và độ ẩm." },
+            { id: 15, title: "Bài 15: Internet vạn vật (IoT)", detail: "Kết nối thiết bị điện qua mạng Wi-Fi." },
+            { id: 16, title: "Bài 16: Robot thông minh", detail: "Cấu tạo phần cứng và thuật toán điều khiển." },
+            { id: 17, title: "Bài 17: An toàn điện tử", detail: "Chống tĩnh điện và bảo vệ linh kiện nhạy cảm." },
+            { id: 18, title: "Bài 18: Lắp ráp thực tế 1", detail: "Thực hành lắp mạch đèn cầu thang thông minh." },
+            { id: 19, title: "Bài 19: Lắp ráp thực tế 2", detail: "Thực hành lắp hệ thống báo động chống trộm." },
+            { id: 20, title: "Bài 20: Ôn tập cuối khóa", detail: "Tổng hợp kiến thức Điện - Điện tử lớp 12." }
+        ]
+    };
 
-        for(let i=1; i<=20; i++) {
-            data.KHOI_10.push({ title: `Lớp 10 - Bài ${i}: Chủ đề Thiết kế kỹ thuật`, content: `Đây là nội dung chi tiết bài học số ${i} của chương trình Công nghệ 10 mới...` });
-            data.KHOI_11.push({ title: `Lớp 11 - Bài ${i}: Công nghệ Cơ khí chế tạo`, content: `Hướng dẫn về quy trình sản xuất cơ khí bài số ${i}. Tập trung vào kỹ thuật gia công...` });
-            data.KHOI_12.push({ title: `Lớp 12 - Bài ${i}: Điện tử và Vi điều khiển`, content: `Kiến thức về mạch điện tử, hệ thống điện quốc gia và tự động hóa bài ${i}...` });
-        }
+    function renderMenu() {
+        const grade = document.getElementById('grade-picker').value;
+        const menuList = document.getElementById('menu-list');
+        const lessons = database[grade];
 
-        // 2. HÀM CẬP NHẬT MENU KHI CHỌN KHỐI
-        function updateMenu() {
-            const grade = document.getElementById('grade-select').value;
-            const menuList = document.getElementById('menu-list');
-            const lessons = data[grade];
+        menuList.innerHTML = lessons.map(lesson => `
+            <div class="menu-item" onclick="viewLesson('${grade}', ${lesson.id - 1}, this)">
+                <i class="fas fa-file-alt" style="margin-right:10px"></i> ${lesson.title}
+            </div>
+        `).join('');
+    }
 
-            menuList.innerHTML = lessons.map((lesson, index) => `
-                <div class="menu-item" onclick="showLesson('${grade}', ${index}, this)">
-                    <i class="fas fa-book"></i> ${lesson.title}
+    function viewLesson(grade, index, el) {
+        // Active effect
+        document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+        el.classList.add('active');
+
+        const lesson = database[grade][index];
+        const view = document.getElementById('article-view');
+
+        view.innerHTML = `
+            <span class="badge">Công nghệ Lớp ${grade}</span>
+            <h1>${lesson.title}</h1>
+            <div class="content-section">
+                <p><strong>Nội dung trọng tâm:</strong></p>
+                <p>${lesson.detail}</p>
+                <p>Môn Công nghệ lớp ${grade} đòi hỏi sự kết hợp giữa lý thuyết và thực hành. Bài học này sẽ giúp học sinh nắm vững các kỹ năng cần thiết để ứng dụng vào thực tiễn sản xuất và đời sống hiện đại.</p>
+                
+                <div class="info-box">
+                    <i class="fas fa-lightbulb"></i> <strong>Hướng dẫn học tập:</strong> 
+                    Hãy ghi chép các từ khóa quan trọng và thực hiện các bài tập trắc nghiệm cuối chương để khắc sâu kiến thức.
                 </div>
-            `).join('');
-        }
+            </div>
+        `;
+    }
 
-        // 3. HÀM HIỂN THỊ NỘI DUNG BÀI HỌC
-        function showLesson(grade, index, element) {
-            // Xử lý active menu
-            document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
-            element.classList.add('active');
-
-            const lesson = data[grade][index];
-            const display = document.getElementById('display-area');
-            
-            display.innerHTML = `
-                <h1>${lesson.title}</h1>
-                <div class="content-body">
-                    <p>${lesson.content}</p>
-                    <div style="background:#f1f5f9; padding:20px; border-radius:8px; margin-top:20px;">
-                        <strong>Gợi ý học tập:</strong> Đọc kỹ lý thuyết và quan sát các sơ đồ liên quan trong SGK.
-                    </div>
-                </div>
-            `;
-        }
-
-        // Khởi tạo trang web
-        updateMenu();
-    </script>
+    // Initialize
+    renderMenu();
+</script>
 </body>
 </html>
